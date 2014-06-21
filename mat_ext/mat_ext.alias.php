@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Aliases for Special:Material
+	 * Aliases for Special:mat_ext
 	 *
 	 * @file
 	 * @ingroup Extensions
@@ -8,9 +8,8 @@
 
 	$specialPageAliases=array();
 		$specialPageAliases['en']=array(
-		'material'=>array('Material'),
+		'mat_ext'=>array('mat_ext'),
 		);
-
 
 
 

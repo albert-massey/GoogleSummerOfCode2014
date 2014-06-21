@@ -1,6 +1,6 @@
 <?php
 /**
- * MediaWiki Student extension
+ * MediaWiki mat_ext extension
  * http://www.mediawiki.org/wiki/Extension:HelloWorld
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,37 +17,49 @@
  */
 
 /**
- * This file loads everything needed for the Hi extension to function.
+ * This file loads everything needed for the mat_ext extension to function.
  *
  * @file
  * @ingroup Extensions
- * @author Ryan Kaldari
+ * @author Albert Coder
  */
 
 // Alert the user that this is not a valid entry point to MediaWiki if they try to access the file directly.
 
 
 // Extension credits that will show up on Special:Version
-if (!defined('MEDIAWIKI')) { die(-1); } 
+
 $wgExtensionCredits['specialpage'][]=array(
 'path'=>__FILE__,
-'name'=>'Material',
+'name'=>'mat_ext',
 'author'=>'Albert Coder',
 'version'=>'1.0',
-'url'=>'coderalbert.wordpress.com',
-'descriptionmsg'=>'mtdesc',
+'url'=>'Coderalbert.wordpress.com',
+'descriptionmsg'=>'Displays the desired text on wikipage',
 );
 
-$dir=dirname(__FILE__).'/';
-$wgExtensionMessagesFiles['Material']=$dir.'Material.i18n.php';
-$wgExtensionMessagesFiles['MaterialAlias'] = $dir .'Material.alias.php';
-$wgAutoloadClasses['SpecialMaterial']=$dir.'Material_body.php';
-$wgSpecialPages['Material']='SpecialMaterial';
-$wgSpecialPageGroups['Material']='other';
-$wgHooks['LoadExtensionSchemaUpdates'][]='fnMyHook';
-function fnMyHook(DatabaseUpdater $updater){
-$updater->addExtensionTable('material',dirname( __FILE__ ) . '/material.sql', true);
-return true;
-}
+$dir=dirname(__FILE__).DIRECTORY_SEPARATOR;
+$wgAutoloadClasses['Specialmat_ext']=$dir.'Specialmat_ext.php';
+$wgExtensionMessagesFiles['mat_ext'] = $dir .'mat_ext.i18n.php';
+$wgExtensionMessagesFiles['mat_extAlias'] = $dir .'v.alias.php';
+$wgSpecialPages['mat_ext']='Specialmat_ext';
+$wgSpecialPageGroups['mat_ext']='other';
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
