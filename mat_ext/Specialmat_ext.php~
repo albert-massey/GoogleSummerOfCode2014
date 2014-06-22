@@ -5,7 +5,6 @@ parent::__construct('mat_ext');
 }
 public function execute($sub){
 global $wgOut;
-global $array;
 global $wgUser;
 $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
@@ -18,7 +17,7 @@ $res1=$dbr->select('material',array('max(id)'),"",__METHOD__);
 $id=0;
 foreach($res1 as $f){
 foreach($f as $t){
- $id=$t; /** get maximum value of ID */
+ $id=$t;  /** get maximum value of ID */
 }
 $new_id=$id+1;
 }
@@ -32,29 +31,17 @@ foreach($qry as $count)
   $limit = $g-1;
 } 
 }
-$res2=$dbr->select('material',array('material_name'),"",__METHOD__);
-$g=0;
-foreach($res2 as $samedata){
-$array[$g] = $samedata->material_name;
-$g++;
-} 
-
 
 if(isset($_POST['add'])){
 $r=array('id'=>0,
-'material_name'=>ucwords($_POST['t1']),
+'material_name'=>$_POST['t1'],
 'userID'=>$name,
 'mat_private'=>$_POST['t3'],
 'description'=>$_POST['t4'],
 'mat_type'=>$_POST['t5']);
-$ucwords = ucwords($_POST['t1']);
-if(in_array($ucwords,$array))
-{
-$this->getOutput()->addHTML("<h4 style='color:#FF0000'>Material is alredy exist</h4>");
-}
-else{
 $res=$dbr->insert('material',$r,__METHOD__);
-$this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
+$this->getOutput()->addHTML("<h4 style='color:blue'>Data is inserted</h4>");
+
 for($i=0;$i<=$limit;$i++){
 if($_POST['d'.$i]!=NULL){
 $data=array('value'=>$_POST['d'.$i],
@@ -63,10 +50,12 @@ $data=array('value'=>$_POST['d'.$i],
 $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 }
 }
-}
+
 }
 
 /** End of insertion code */
+
+
 /** This code used for create  data entering form */
 
 $this->getOutput()->setPageTitle( 'Add New Material' );
