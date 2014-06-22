@@ -72,7 +72,7 @@ $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 $this->getOutput()->setPageTitle( 'Add New Material' );
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
 <table><tr><td>Material Name</td><td><input required type='text' name='t1'></tr>
- <tr><td>Material Privacy</td><td><input required type='radio' name='t3' value='1'>Public &nbsp;&nbsp;&nbsp;
+ <tr><td>Material Privacy</td><td><input required type='radio' name='t3' value='1' checked>Public &nbsp;&nbsp;&nbsp;
 <input required type='radio' name='t3' value='0'>Private</td></tr>
 <tr><td>Material Description</td><td><input required type='text' name='t4'></td></tr>
 <tr><td>Material Type</td><td><select name='t5'>
