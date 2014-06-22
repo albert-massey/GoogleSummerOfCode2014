@@ -6,10 +6,8 @@ parent::__construct('mat_ext');
 public function execute($sub){
 global $wgOut;
 global $wgUser;
-//$name=$wgUser->getName();
 $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
-$wgOut->setPageTitle( wfMessage('') );
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
 if($wgUser->isLoggedIn()){
 
@@ -62,12 +60,18 @@ $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 
 $this->getOutput()->setPageTitle( 'Add New Material' );
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
-<table><tr><td>Material Name</td><td><input type='text' name='t1'></tr>
- <tr><td>Material Privacy</td><td><input type='text' name='t3'></td></tr>
-<tr><td>Material Description</td><td><input type='text' name='t4'></td></tr>
-<tr><td>Material Type</td><td><input type='text' name='t5'></td></tr>
+<table><tr><td>Material Name</td><td><input required type='text' name='t1'></tr>
+ <tr><td>Material Privacy</td><td><input required type='radio' name='t3' value='1'>Public &nbsp;&nbsp;&nbsp;
+<input required type='radio' name='t3' value='0'>Private</td></tr>
+<tr><td>Material Description</td><td><input required type='text' name='t4'></td></tr>
+<tr><td>Material Type</td><td><select name='t5'>
+<option value='1'>Metal</option>
+<option value='2'>Non-metal</option>
+<option value='3'>Fluid</option>
+<option value='4'>Plastic</option>
+</select></td></tr>
 </table>");
-$this->getOutput()->addHTML("<h4>Select traits for the material and enter the value in <i>SI units</i></h4>");
+$this->getOutput()->addHTML("<h4>Enter the values in <i>SI units</i></h4>");
 
 /** This code makes dynamic traits for material */
 
@@ -83,7 +87,7 @@ $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add'
 }
 else
 {
-	$this->getOutput()->addHTML("<h3 style='color:red'>Please Login to add new Data</h3>");
+	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
 }
 
 
