@@ -10,33 +10,6 @@ global $wgUser;
 $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
-
-	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
-	$g=0;
-	foreach($res2 as $samedata){
-	$array[$g] = $samedata->trait_name;
-	$g++;
-	} 
-	for($i=0; $i<5; $i++ ){
-	$res = $dbr->select(
-		array( 'material',$array[$i]),
-		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
-		array(
-			'mat_id>0'
-		),
-		__METHOD__,
-		array(),
-		array( $array[$i] => array( 'INNER JOIN', array(
-			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
- 	);
-	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>$array[$i]</th><th>Timestamp</th></tr>");
-	foreach( $res as $row ) {
-		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
-
-	}
-	$this->getOutput()->addHTML("</table><br>");}
-
-
 if($wgUser->isLoggedIn()){
 
 /** This code used for insert the data in database */
@@ -120,6 +93,30 @@ $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add'
 else
 {
 	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+	$g=0;
+	foreach($res2 as $samedata){
+	$array[$g] = $samedata->trait_name;
+	$g++;
+	} 
+	for($i=0; $i<5; $i++ ){
+	$res = $dbr->select(
+		array( 'material',$array[$i]),
+		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
+		array(
+			'mat_id>0'
+		),
+		__METHOD__,
+		array(),
+		array( $array[$i] => array( 'INNER JOIN', array(
+			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
+ 	);
+	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>$array[$i]</th><th>Timestamp</th></tr>");
+	foreach( $res as $row ) {
+		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+
+	}
+	$this->getOutput()->addHTML("</table><br>");}
 
 }
 }
