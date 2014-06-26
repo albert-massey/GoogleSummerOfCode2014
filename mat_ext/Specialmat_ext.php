@@ -11,20 +11,44 @@ $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
 
+	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+	$g=0;
+	foreach($res2 as $samedata){
+	$array[$g] = $samedata->trait_name;
+	$g++;
+	} 
+	for($i=0; $i<5; $i++ ){
+	$res = $dbr->select(
+		array( 'material',$array[$i]),
+		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
+		array(
+			'mat_id>0'
+		),
+		__METHOD__,
+		array(),
+		array( $array[$i] => array( 'INNER JOIN', array(
+			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
+ 	);
+	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>$array[$i]</th><th>Timestamp</th></tr>");
+	foreach( $res as $row ) {
+		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+
+	}
+	$this->getOutput()->addHTML("</table><br>");}
+
+
 if($wgUser->isLoggedIn()){
 
 /** This code used for insert the data in database */
-
 $res1=$dbr->select('material',array('max(id)'),"",__METHOD__);
 $id=0;
 foreach($res1 as $f){
 foreach($f as $t){
- $id=$t; /** get maximum value of ID */
+$id=$t; /** get maximum value of ID */
 }
 $new_id=$id+1;
 }
-
-$qry=$dbr->select('trait_tables',array('count(id)'),"",__METHOD__);
+$qry=$dbr->select('trait_table',array('count(id)'),"",__METHOD__);
 $limit=0;
 foreach($qry as $count)
 {
@@ -39,8 +63,6 @@ foreach($res2 as $samedata){
 $array[$g] = $samedata->material_name;
 $g++;
 } 
-
-
 if(isset($_POST['add'])){
 $r=array('id'=>0,
 'material_name'=>ucwords($_POST['t1']),
@@ -69,7 +91,7 @@ $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 
 /** End of insertion code */
 /** This code used for create  data entering form */
-
+$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php/Special:mat_ext_one'>Click</a> to add new trait</h3>");
 $this->getOutput()->setPageTitle( 'Add New Material' );
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
 <table><tr><td>Material Name</td><td><input required type='text' name='t1'></tr>
@@ -86,54 +108,67 @@ $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SE
 $this->getOutput()->addHTML("<h4>Enter the values in <i>SI units</i></h4>");
 
 /** This code makes dynamic traits for material */
-
-$res=$dbr->select('trait_tables',array('table_name','id'),"",__METHOD__);
+$res=$dbr->select('trait_table',array('trait_name','id'),"",__METHOD__);
 $v=0;
 $this->getOutput()->addHTML("<table>");
 foreach($res as $data){
-$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->table_name."' name='".$v."'><td>".$data->table_name."</td><td><input type='text' name='d".$v."' placeholder='Enter the value of ".$data->table_name."'></td></tr>");
+$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".$data->trait_name."</td><td><input type='text' name='d".$v."' placeholder='Enter the value of ".$data->trait_name."'></td></tr>");
 $v++;
 }
 $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form>");
-
-	$res2=$dbr->select('trait_tables',array('table_name'),"",__METHOD__);
-	$g=0;
-	foreach($res2 as $samedata){
-	$array[$g] = $samedata->table_name;
-	$g++;
-	} 
-	for($i=0; $i<5; $i++ ){
-	$res = $dbr->select(
-		array( 'material',$array[$i]),
-		array( 'material_name','value' ),
-		array(
-			'mat_id>0'
-		),
-		__METHOD__,
-		array(),
-		array( $array[$i] => array( 'INNER JOIN', array(
-			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
- 	);
-	
-	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>$array[$i]</th></tr>");
-	foreach( $res as $row ) {
-		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td></tr>");
-
-	}
-	$this->getOutput()->addHTML("</table><br>");}
-
-
 }
 else
 {
 	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
-}
-
 
 }
-
-
 }
-
+}
 $wgSpecialPages['TestForm'] = 'SpecialTestForm';
+
+class Specialmat_ext_one extends SpecialPage{
+public function __construct(){
+parent::__construct('mat_ext_one');
+}
+public function execute($sub){
+	global $wgOut;
+	global $array;
+	$dbr=wfGetDB(DB_SLAVE);
+	$wiki_message = 'J3';
+	$this->getOutput()->setPageTitle( 'Materials Database Extension' );
+	$wgOut->addWikiMsg('add_trait');
+	$this->getOutput()->setPageTitle( 'Add New Trait' );
+	$dbw = wfGetDB( DB_MASTER );
+$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+$g=0;
+foreach($res2 as $samedata){
+$array[$g] = $samedata->trait_name;
+$g++;
+}
+
+if(isset($_POST['addtrait'])){
+$r=array('id'=>0,
+'trait_name'=>ucwords($_POST['trait_name']),
+'t_type'=>$_POST['trait_type']);
+$ucwords = ucwords($_POST['trait_name']);
+if(in_array($ucwords,$array))
+{
+$this->getOutput()->addHTML("<h4 style='color:#FF0000'>Trait already exists</h4>");
+}
+else{
+$res=$dbr->insert('trait_table',$r,__METHOD__);
+$this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
+}
+}
+$this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one' method='post'>
+<table><tr><td>Trait Name</td><td><input required type='text' name='trait_name'></tr>
+<tr><td>Trait Type</td><td><select required  name='trait_type'>");
+$tarray=$dbr->select('trait_type',array('id','type'),"",__METHOD__);
+foreach($tarray as $type){
+$this->getOutput()->addHTML("<option value= ".$type->id.">".$type->type."</option>");
+} 
+$this->getOutput()->addHTML("</select></td></tr>
+<tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form>");
+}
+}
 
