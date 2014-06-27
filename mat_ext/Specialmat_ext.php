@@ -7,6 +7,7 @@ public function execute($sub){
 global $wgOut;
 global $array;
 global $wgUser;
+global $count;
 $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
@@ -94,12 +95,14 @@ else
 {
 	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
 	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+	//echo $count = count($);
 	$g=0;
 	foreach($res2 as $samedata){
 	$array[$g] = $samedata->trait_name;
+	$count = $g+1;
 	$g++;
 	} 
-	for($i=0; $i<5; $i++ ){
+	for($i=0; $i<$count; $i++ ){
 	$res = $dbr->select(
 		array( 'material',$array[$i]),
 		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
@@ -178,7 +181,8 @@ foreach($tarray as $type){
 $this->getOutput()->addHTML("<option value= ".$type->id.">".$type->type."</option>");
 } 
 $this->getOutput()->addHTML("</select></td></tr>
-<tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form>");
+<tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form><h4 style='color:#FF0000'><a href='http://localhost/mediawiki-1.22.7/index.php/Special:Mat_ext'>Add Material</a></h4>");
+
 } //LogIn
 else
 {
