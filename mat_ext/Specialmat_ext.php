@@ -85,7 +85,7 @@ $res=$dbr->select('trait_table',array('trait_name','id'),"",__METHOD__);
 $v=0;
 $this->getOutput()->addHTML("<table>");
 foreach($res as $data){
-$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".$data->trait_name."</td><td><input type='text' name='d".$v."' placeholder='Enter the value of ".$data->trait_name."'></td></tr>");
+$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".ucwords(str_ireplace("_", " ", $data->trait_name))."</td><td><input type='text' name='d".$v."' placeholder='Enter the value of ".$data->trait_name."'></td></tr>");
 $v++;
 }
 $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form>");
@@ -128,14 +128,18 @@ public function __construct(){
 parent::__construct('mat_ext_one');
 }
 public function execute($sub){
+	global $wgUser;
+if($wgUser->isLoggedIn()){
 	global $wgOut;
 	global $array;
+	global $wgDBprefix;
 	$dbr=wfGetDB(DB_SLAVE);
 	$wiki_message = 'J3';
 	$this->getOutput()->setPageTitle( 'Materials Database Extension' );
 	$wgOut->addWikiMsg('add_trait');
 	$this->getOutput()->setPageTitle( 'Add New Trait' );
 	$dbw = wfGetDB( DB_MASTER );
+	
 $res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 $g=0;
 foreach($res2 as $samedata){
@@ -145,14 +149,23 @@ $g++;
 
 if(isset($_POST['addtrait'])){
 $r=array('id'=>0,
-'trait_name'=>ucwords($_POST['trait_name']),
+'trait_name'=>str_ireplace(" ", "_", strtolower($_POST['trait_name'])),
 't_type'=>$_POST['trait_type']);
-$ucwords = ucwords($_POST['trait_name']);
-if(in_array($ucwords,$array))
+echo $strtolower = str_ireplace(" ", "_", strtolower($_POST['trait_name']));
+if(in_array($strtolower,$array))
 {
 $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Trait already exists</h4>");
 }
 else{
+$dbw->query("CREATE TABLE `".$wgDBprefix.$strtolower."` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `value` varchar(64) default NULL,
+  `mat_id` bigint(5) default NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
+");
 $res=$dbr->insert('trait_table',$r,__METHOD__);
 $this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
 }
@@ -166,6 +179,11 @@ $this->getOutput()->addHTML("<option value= ".$type->id.">".$type->type."</optio
 } 
 $this->getOutput()->addHTML("</select></td></tr>
 <tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form>");
+} //LogIn
+else
+{
+        $this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+}
 }
 }
 
