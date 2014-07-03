@@ -1,352 +1,318 @@
--- MySQL dump 10.9
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: materialsDB
--- ------------------------------------------------------
--- Server version	4.1.18-log
+-- Host: localhost
+-- Generation Time: Jul 04, 2014 at 01:06 AM
+-- Server version: 5.5.37-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `boiling_point`
+-- Database: `materiasDB`
 --
 
-DROP TABLE IF EXISTS `wiki_boiling_point`;
-CREATE TABLE `wiki_boiling_point` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` bigint(5) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wiki_boiling_point`
+--
+
+CREATE TABLE IF NOT EXISTS `wiki_boiling_point` (
+  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) DEFAULT NULL,
+  `mat_id` int(20) unsigned DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_wiki_material` (`mat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `wiki_boiling_point`
 --
 
-LOCK TABLES `wiki_boiling_point` WRITE;
-/*!40000 ALTER TABLE `wiki_boiling_point` DISABLE KEYS */;
-INSERT INTO `wiki_boiling_point` VALUES (1,'2519 C',1,'2006-04-25 20:07:23'),(2,'2471 C',2,'2006-04-25 20:08:52'),(3,'2562 C',3,'2006-04-25 20:17:55'),(4,'2861 C',4,'2006-04-25 20:25:28'),(5,'2862 C',5,'2014-06-17 20:25:28');
-/*!40000 ALTER TABLE `wiki_boiling_point` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `wiki_boiling_point` (`id`, `value`, `mat_id`, `timestamp`) VALUES
+(1, '2519', 1, '2006-04-25 14:37:23'),
+(2, '2471', 2, '2006-04-25 14:38:52'),
+(3, '2562', 3, '2006-04-25 14:47:55'),
+(4, '2861', 4, '2006-04-25 14:55:28'),
+(5, '2862', 5, '2014-06-17 14:55:28');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `wiki_density`
 --
 
-DROP TABLE IF EXISTS `wiki_density`;
-CREATE TABLE `wiki_density` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` varchar(5) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `wiki_density` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) DEFAULT NULL,
+  `mat_id` int(20) unsigned DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_density` (`mat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `wiki_density`
 --
 
-LOCK TABLES `wiki_density` WRITE;
-/*!40000 ALTER TABLE `wiki_density` DISABLE KEYS */;
-INSERT INTO `wiki_density` VALUES (1,'2.7 g/cm^3',1,'2006-04-25 20:07:37'),(2,'1.848 g/cm^3',2,'2006-04-25 20:09:08'),(3,'8.94 g/cm^3',3,'2006-04-25 20:17:55'),(4,'8.96 g/cm^3',4,'2006-04-25 20:25:28'),(5,'7.87 g/cm^3',5,'2014-06-16 20:25:28');
-/*!40000 ALTER TABLE `wiki_density` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `wiki_density` (`id`, `value`, `mat_id`, `timestamp`) VALUES
+(1, '2.7', 1, '2006-04-25 14:37:37'),
+(2, '1.848', 2, '2006-04-25 14:39:08'),
+(3, '8.94', 3, '2006-04-25 14:47:55'),
+(4, '8.96', 4, '2006-04-25 14:55:28'),
+(5, '7.87', 5, '2014-06-16 14:55:28');
 
---
--- Table structure for table `wiki_melting_point`
---
-
-DROP TABLE IF EXISTS `wiki_melting_point`;
-CREATE TABLE `wiki_melting_point` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int default NULL, 
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wiki_melting_point`
---
-
-LOCK TABLES `wiki_melting_point` WRITE;
-/*!40000 ALTER TABLE `wiki_melting_point` DISABLE KEYS */;
-INSERT INTO `wiki_melting_point` VALUES (1,'660.4 C',1,'2006-04-25 20:07:13'),(2,'1287 C',2,'2006-04-25 20:08:41'),(3,'1083 C',3,'2006-04-25 20:17:55'),(4,'1085 C',4,'2006-04-25 20:25:28'),(5,'1538 C',5,'2006-04-25 20:25:28');
-/*!40000 ALTER TABLE `wiki_melting_point` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `wiki_specific_heat`
---
-
-DROP TABLE IF EXISTS `wiki_specific_heat`;
-CREATE TABLE `wiki_specific_heat` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `temperature` varchar(64) default NULL,
-  `mat_id` int default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wiki_specific_heat`
---
-
-LOCK TABLES `wiki_specific_heat` WRITE;
-/*!40000 ALTER TABLE `wiki_specific_heat` DISABLE KEYS */;
-INSERT INTO `wiki_specific_heat` VALUES (1,'0.215 cal/g C','25 C',1,'2006-04-25 20:08:00'),(2,'0.45 cal/g C','50 C',2,'2006-04-25 20:09:40'),(3,'0.0918 cal/g C','20 C',3,'2006-04-25 20:17:55'),(4,'0.12 cal/g C','100 C',4,'2006-04-25 20:25:28'),(5,'0.15 cal/g C','50 C',5,'2014-06-15 20:25:28');
-/*!40000 ALTER TABLE `wiki_specific_heat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `wiki_tensile_strength`
---
-
-DROP TABLE IF EXISTS `wiki_tensile_strength`;
-CREATE TABLE `wiki_tensile_strength` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wiki_tensile_strength`
---
-
-LOCK TABLES `wiki_tensile_strength` WRITE;
-/*!40000 ALTER TABLE `wiki_tensile_strength` DISABLE KEYS */;
-INSERT INTO `wiki_tensile_strength` VALUES (1,'30000 psi',1,'2006-04-25 20:08:11'),(2,'35000 psi',2,'2006-04-25 20:25:28'),(3,'30000 psi',3,'2006-04-25 20:17:55'),(4,'25000 psi',4,'2014-06-15 20:25:28'),(5,'78300 psi',5,'2006-04-25 20:25:28');
-/*!40000 ALTER TABLE `wiki_tensile_strength` ENABLE KEYS */;
-UNLOCK TABLES;
-
-/*--
--- Table structure for table `UTS`
---
-
-DROP TABLE IF EXISTS `UTS`;
-CREATE TABLE `UTS` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `strain rate` varchar(64) default NULL,
-  `temp` varchar(64) default NULL,
-  `mat_id` int default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `UTS`
---
-
-LOCK TABLES `UTS` WRITE;
-/*!40000 ALTER TABLE `UTS` DISABLE KEYS */;
-/*INSERT INTO `UTS` VALUES (1,'1234',NULL,'345 C',1,'2006-04-26 14:41:40');
-/*!40000 ALTER TABLE `UTS` ENABLE KEYS */;
-/*UNLOCK TABLES;*/
-
---
--- Table structure for table `trait_type`
---
-
-DROP TABLE IF EXISTS `wiki_trait_type`;
-CREATE TABLE `wiki_trait_type` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `type` varchar(64) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wiki_trait_type`
---
-
-LOCK TABLES `wiki_trait_type` WRITE;
-/*!40000 ALTER TABLE `wiki_trait_type` DISABLE KEYS */;
-INSERT INTO `wiki_trait_type` VALUES (0,'Miscellaneous','2014-06-12 14:41:40'),(1,'Mechanical','2014-06-12 14:41:40'),(2,'Optical','2006-04-26 14:21:33'),(3,'Physical','2006-04-26 15:21:33');
-/*!40000 ALTER TABLE `wiki_trait_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `wiki_material_type`
---
-
-DROP TABLE IF EXISTS `wiki_material_type`;
-CREATE TABLE `wiki_material_type` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `mtype` varchar(64) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wiki_material_type`
---
-
-LOCK TABLES `wiki_material_type` WRITE;
-/*!40000 ALTER TABLE `wiki_material_type` DISABLE KEYS */;
-INSERT INTO `wiki_material_type` VALUES (1,'Metal','2014-06-14 14:41:40'),(2,'Non-metal','2014-06-14 14:21:33'),(3,'Fluid','2014-06-14 15:21:33'),(4,'Plastic','2014-06-14 16:21:33');
-/*!40000 ALTER TABLE `wiki_material_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `wiki_material`
 --
 
-DROP TABLE IF EXISTS `wiki_material`;
-CREATE TABLE `wiki_material` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `material_name` varchar(64) NOT NULL default '',
-  `userID` bigint(20) unsigned NOT NULL default '0',
-  `mat_private` tinyint(1) NOT NULL default '0',
+CREATE TABLE IF NOT EXISTS `wiki_material` (
+  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+  `material_name` varchar(64) NOT NULL DEFAULT '',
+  `userID` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `mat_private` tinyint(1) NOT NULL DEFAULT '0',
   `description` text,
-  `mat_type` tinyint(1) NOT NULL default '0',
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
+  `mat_type` tinyint(2) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `wiki_material`
 --
 
-LOCK TABLES `wiki_material` WRITE;
-/*!40000 ALTER TABLE `wiki_material` DISABLE KEYS */;
-INSERT INTO `wiki_material` VALUES (1,'Carbon',1,0,'Carbon is the chemical element with symbol C and atomic number 6. As a member of group 14 on the periodic table, it is nonmetallic and tetravalent—making four electrons available to form covalent chemical bonds',2,'2006-04-25 19:56:05'),(2,'Aluminum',2,0,'Pure aluminum is light, nontoxic, nonmagnetic and nonsparking. It can be easily formed, machined and cast. This silvery-white metal has a high thermal conductivity and has excellent corrosion resistance. Aluminum is the most abundant metal in the earth\'s crust. It ranks second among metals in the scale of malleability and sixth in ductility. [Alfa Aesar]',1,'2006-04-25 19:56:05'),(3,'Beryllium',2,0,'Beryllium,steel-gray in color, is the lightest structural metal and has one of the highest melting points of the light metals. At ordinary temperatures, beryllium resists oxidation in air. The element is resistant to concentrated nitric acid, is nonmagnetic, and offers excellent thermal conductivity. The beryllium fabrication process is usually by powder metallurgy, due to the metals poor ductility. [Alfa Aesar]',1,'2006-04-25 19:56:14'),(4,'Copper',2,0,'Copper is a reddish, lustrous, ductile, malleable metal. It is second only to silver in electrical conductivity and is also a good conductor of heat. Copper is one of the earliest known materials and is believed to have been mined for over 5000 years. Though it occasionally occurs native, copper id s found in other minerals including cuprite, malachite, and chalcopyrite.  [Alfa Aesar]',1,'2006-04-25 20:16:24'),(5,'Iron',2,0,'One of the most abundant metals in the earth\'s crust, it is believed that iron makes up all but a very small percentage of the earth\'s core. It is a silvery-white, malleable metal that is highly reactive chemically. Iron rapidly corrodes at high temperatures or in moist air. Rarely found in its pure form, iron is hard, brittle, fusible, and often used to produce alloys with carbon and other metals. It is the main component in steel.[Alfa Aesar]',1,'2006-04-25 20:24:04');
-/*!40000 ALTER TABLE `wiki_material` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `wiki_material` (`id`, `material_name`, `userID`, `mat_private`, `description`, `mat_type`, `timestamp`) VALUES
+(1, 'Carbon', 1, 0, 'Carbon is the chemical element with symbol C and atomic number 6. As a member of group 14 on the periodic table, it is nonmetallic and tetravalent—making four electrons available to form covalent chemical bonds', 2, '2006-04-25 14:26:05'),
+(2, 'Aluminum', 2, 0, 'Pure aluminum is light, nontoxic, nonmagnetic and nonsparking. It can be easily formed, machined and cast. This silvery-white metal has a high thermal conductivity and has excellent corrosion resistance. Aluminum is the most abundant metal in the earth''s crust. It ranks second among metals in the scale of malleability and sixth in ductility. [Alfa Aesar]', 1, '2006-04-25 14:26:05'),
+(3, 'Beryllium', 2, 0, 'Beryllium,steel-gray in color, is the lightest structural metal and has one of the highest melting points of the light metals. At ordinary temperatures, beryllium resists oxidation in air. The element is resistant to concentrated nitric acid, is nonmagnetic, and offers excellent thermal conductivity. The beryllium fabrication process is usually by powder metallurgy, due to the metals poor ductility. [Alfa Aesar]', 1, '2006-04-25 14:26:14'),
+(4, 'Copper', 2, 0, 'Copper is a reddish, lustrous, ductile, malleable metal. It is second only to silver in electrical conductivity and is also a good conductor of heat. Copper is one of the earliest known materials and is believed to have been mined for over 5000 years. Though it occasionally occurs native, copper id s found in other minerals including cuprite, malachite, and chalcopyrite.  [Alfa Aesar]', 1, '2006-04-25 14:46:24'),
+(5, 'Iron', 2, 0, 'One of the most abundant metals in the earth''s crust, it is believed that iron makes up all but a very small percentage of the earth''s core. It is a silvery-white, malleable metal that is highly reactive chemically. Iron rapidly corrodes at high temperatures or in moist air. Rarely found in its pure form, iron is hard, brittle, fusible, and often used to produce alloys with carbon and other metals. It is the main component in steel.[Alfa Aesar]', 1, '2006-04-25 14:54:04');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `wiki_trait_tables`
+-- Table structure for table `wiki_material_type`
 --
 
-DROP TABLE IF EXISTS `wiki_trait_tables`;
-CREATE TABLE `wiki_trait_tables` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `table_name` varchar(64) default NULL,
-   `t_type` int default '0',
-  PRIMARY KEY  (`id`),
+CREATE TABLE IF NOT EXISTS `wiki_material_type` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mtype` varchar(64) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `wiki_trait_tables`
+-- Dumping data for table `wiki_material_type`
 --
 
-LOCK TABLES `wiki_trait_tables` WRITE;
-/*!40000 ALTER TABLE `wiki_trait_tables` DISABLE KEYS */;
-INSERT INTO `wiki_trait_tables` VALUES (1,'boiling_point',3),(2,'density',3),(3,'melting_point',3),(4,'specific_heat',3),(5,'tensile_strength',1);
-/*!40000 ALTER TABLE `wiki_trait_tables` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `wiki_material_type` (`id`, `mtype`, `timestamp`) VALUES
+(1, 'Metal', '2014-06-14 09:11:40'),
+(2, 'Non-metal', '2014-06-14 08:51:33'),
+(3, 'Fluid', '2014-06-14 09:51:33'),
+(4, 'Plastic', '2014-06-14 10:51:33');
 
-/*--
--- Table structure for table `traits`
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wiki_melting_point`
 --
 
-DROP TABLE IF EXISTS `traits`;
-CREATE TABLE `traits` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
-  `materialID` bigint(20) unsigned NOT NULL default '0',
-  `table_name` varchar(64) NOT NULL default '',
-  `table_materialID` bigint(20) unsigned NOT NULL default '0',
-  `userID` bigint(20) unsigned NOT NULL default '0',
-  `trait_private` tinyint(1) NOT NULL default '0',
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
+CREATE TABLE IF NOT EXISTS `wiki_melting_point` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) DEFAULT NULL,
+  `mat_id` int(20) unsigned DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_mp` (`mat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `wiki_melting_point`
+--
+
+INSERT INTO `wiki_melting_point` (`id`, `value`, `mat_id`, `timestamp`) VALUES
+(1, '660.4', 1, '2006-04-25 14:37:13'),
+(2, '1287', 2, '2006-04-25 14:38:41'),
+(3, '1083', 3, '2006-04-25 14:47:55'),
+(4, '1085', 4, '2006-04-25 14:55:28'),
+(5, '1538', 5, '2006-04-25 14:55:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wiki_specific_heat`
+--
+
+CREATE TABLE IF NOT EXISTS `wiki_specific_heat` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) DEFAULT NULL,
+  `temperature` varchar(64) DEFAULT NULL,
+  `mat_id` int(20) unsigned DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_sh` (`mat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `wiki_specific_heat`
+--
+
+INSERT INTO `wiki_specific_heat` (`id`, `value`, `temperature`, `mat_id`, `timestamp`) VALUES
+(1, '0.215', '25', 1, '2006-04-25 14:38:00'),
+(2, '0.45', '50', 2, '2006-04-25 14:39:40'),
+(3, '0.0918', '20', 3, '2006-04-25 14:47:55'),
+(4, '0.12', '100', 4, '2006-04-25 14:55:28'),
+(5, '0.15', '50', 5, '2014-06-15 14:55:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wiki_tensile_strength`
+--
+
+CREATE TABLE IF NOT EXISTS `wiki_tensile_strength` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) DEFAULT NULL,
+  `mat_id` int(20) unsigned DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_ts` (`mat_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `wiki_tensile_strength`
+--
+
+INSERT INTO `wiki_tensile_strength` (`id`, `value`, `mat_id`, `timestamp`) VALUES
+(1, '30000', 1, '2006-04-25 14:38:11'),
+(2, '35000', 2, '2006-04-25 14:55:28'),
+(3, '30000', 3, '2006-04-25 14:47:55'),
+(4, '25000', 4, '2014-06-15 14:55:28'),
+(5, '78300', 5, '2006-04-25 14:55:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wiki_trait_table`
+--
+
+CREATE TABLE IF NOT EXISTS `wiki_trait_table` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `trait_name` varchar(64) DEFAULT NULL,
+  `t_type` int(11) DEFAULT '0',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `traits`
+-- Dumping data for table `wiki_trait_table`
 --
 
-LOCK TABLES `traits` WRITE;
-/*!40000 ALTER TABLE `traits` DISABLE KEYS */;
-/*INSERT INTO `traits` VALUES (60,10,'Density',10,2,0,'2006-04-25 20:16:28'),(51,8,'Specific Heat',8,2,0,'2006-04-25 20:13:01'),(50,8,'Density',8,2,0,'2006-04-25 20:13:01'),(49,8,'Boiling Point',8,2,0,'2006-04-25 20:13:01'),(48,8,'Melting Point',8,2,0,'2006-04-25 20:13:01'),(47,7,'Tensile Strength',7,2,0,'2006-04-25 20:13:01'),(46,7,'Specific Heat',7,2,0,'2006-04-25 20:13:01'),(45,7,'Density',7,2,0,'2006-04-25 20:13:01'),(44,7,'Boiling Point',7,2,0,'2006-04-25 20:13:01'),(43,7,'Melting Point',7,2,0,'2006-04-25 20:13:01'),(61,10,'Boiling Point',10,2,0,'2006-04-25 20:17:28'),(59,10,'Specific Heat',10,2,0,'2006-04-25 20:16:44'),(58,10,'Tensile Strength',10,2,0,'2006-04-25 20:17:44'),(62,10,'Melting Point',10,2,0,'2006-04-25 20:17:40'),(63,11,'Density',11,2,0,'2006-04-25 20:24:08'),(64,11,'Boiling Point',11,2,0,'2006-04-25 20:24:12'),(65,11,'Specific Heat',11,2,0,'2006-04-25 20:24:10'),(66,11,'Tensile Strength',11,2,0,'2006-04-25 20:24:16'),(67,11,'Melting Point',11,2,0,'2006-04-25 20:24:14');
-/*!40000 ALTER TABLE `traits` ENABLE KEYS */;
-/*UNLOCK TABLES;
+INSERT INTO `wiki_trait_table` (`id`, `trait_name`, `t_type`, `timestamp`) VALUES
+(1, 'boiling_point', 3, '2006-04-25 14:54:04'),
+(2, 'density', 3, '2006-04-25 14:54:04'),
+(3, 'melting_point', 3, '2006-04-25 14:54:04'),
+(4, 'specific_heat', 3, '2006-04-25 14:54:04'),
+(5, 'tensile_strength', 1, '2006-04-25 14:54:04');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `wiki_trait_type`
 --
 
-/*DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `uid` bigint(20) unsigned NOT NULL auto_increment,
-  `username` varchar(64) NOT NULL default '',
-  `password` varchar(64) NOT NULL default '',
-  `unsuccessful` tinyint(4) NOT NULL default '0',
-  `locked` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`uid`),
-  UNIQUE KEY `id` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-*/
---
--- Dumping data for table `user`
---
-
-/*LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*INSERT INTO `user` VALUES (1,'mike','6367c48dd193d56ea7b0baad25b19455e529f5ee',0,0),(2,'mrb','7c2833cbed7562a6479717a6541c593afe74b0d8',0,0),(3,'j','5c2dd944dde9e08881bef0894fe7b22a5c9c4b06',0,0),(4,'sean','5d165221d9ca32fd73cf9c29eaecc139fc44be3d',0,0),(5,'test','a94a8fe5ccb19ba61c4c0873d391e987982fbbd3',0,0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-/*UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS `wiki_trait_type` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(64) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Table structure for table `userinfo`
+-- Dumping data for table `wiki_trait_type`
 --
 
-DROP TABLE IF EXISTS `userinfo`;
-CREATE TABLE `userinfo` (
-  `uid` bigint(20) unsigned NOT NULL default '0',
-  `salutation` varchar(64) NOT NULL default '',
-  `first` varchar(64) NOT NULL default '',
-  `last` varchar(64) NOT NULL default '',
-  `email` varchar(64) NOT NULL default '',
-  `wphone` varchar(32) NOT NULL default '',
-  `site` varchar(64) NOT NULL default '',
-  `building` varchar(64) NOT NULL default '',
-  `room_no` varchar(64) NOT NULL default '',
-  `office_name` varchar(128) NOT NULL default '',
-  `office_symbol` varchar(128) NOT NULL default '',
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`uid`),
-  UNIQUE KEY `id` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `wiki_trait_type` (`id`, `type`, `timestamp`) VALUES
+(0, 'Miscellaneous', '2014-06-12 09:11:40'),
+(1, 'Mechanical', '2014-06-12 09:11:40'),
+(2, 'Optical', '2006-04-26 08:51:33'),
+(3, 'Physical', '2006-04-26 09:51:33');
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `userinfo`
+-- Table structure for table `wiki_trait_units`
 --
 
-LOCK TABLES `userinfo` WRITE;
-/*!40000 ALTER TABLE `userinfo` DISABLE KEYS */;
-/*INSERT INTO `userinfo` VALUES (1,'Mr.','Mike','Tegtmeyer','mtegtmeyer@arl.army.mil','36074','ARL','238','204','SEB','SEB','2006-04-04 16:11:52'),(2,'','Material','Board','mrb@mrb.arl.army.mil','123-456-7890','ARL','','','','','0000-00-00 00:00:00'),(3,'','j','j','j','j','j','','','','','0000-00-00 00:00:00'),(4,'','Sean','Morrison','morrison@arl.mil','6678','ARL','','','','','0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `userinfo` ENABLE KEYS */;
-/*UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS `wiki_trait_units` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `units` varchar(64) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Dumping data for table `wiki_trait_units`
+--
+
+INSERT INTO `wiki_trait_units` (`id`, `units`, `timestamp`) VALUES
+(1, 'g/cm^3', '2014-06-12 09:11:40'),
+(2, 'C', '2014-06-12 09:11:40'),
+(3, 'C', '2006-04-26 08:51:33'),
+(4, 'cal/g C', '2006-04-26 09:51:33'),
+(5, 'psi', '2014-06-12 09:11:40');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `wiki_boiling_point`
+--
+ALTER TABLE `wiki_boiling_point`
+  ADD CONSTRAINT `FK_wiki_material` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+
+--
+-- Constraints for table `wiki_density`
+--
+ALTER TABLE `wiki_density`
+  ADD CONSTRAINT `FK_density` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+
+--
+-- Constraints for table `wiki_melting_point`
+--
+ALTER TABLE `wiki_melting_point`
+  ADD CONSTRAINT `FK_mp` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+
+--
+-- Constraints for table `wiki_specific_heat`
+--
+ALTER TABLE `wiki_specific_heat`
+  ADD CONSTRAINT `FK_sh` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+
+--
+-- Constraints for table `wiki_tensile_strength`
+--
+ALTER TABLE `wiki_tensile_strength`
+  ADD CONSTRAINT `FK_ts` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
