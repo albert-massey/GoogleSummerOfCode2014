@@ -102,6 +102,50 @@ $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add'
 }
 else
 {
+//		$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+		$this->getOutput()->addHTML("<form action=http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:Mat_ext method='post'><table>
+	<tr><td>Search by Material Name</td>
+	<td><input type='text' name='t1'></td></tr>
+	<tr><td><input type='submit' name='sb' value='Search'></td></tr>
+	</table></form>");
+//	global $res2;
+//	global $res3;
+//	global $g;
+	if(isset($_POST['t1'])){
+$res3=$dbr->select('material',array('mat_type,id'),"material_name='".$_POST['t1']."'",__METHOD__);
+foreach($res3 as $d){
+$r[0]=$d->mat_type;
+$r[1]=$d->id;
+}
+	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+	$g=0;
+	foreach($res2 as $samedata){
+			$array[$g] = $samedata->trait_name;
+	$g++;
+	} 
+
+	for($i=0; $i<sizeof($array); $i++ ){
+	$res = $dbr->select(
+		array( 'material',$array[$i]),
+		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
+		array(
+			"mat_id='".$r[1]."'"
+		),
+		__METHOD__,
+		array(),
+		array( $array[$i] => array( 'INNER JOIN', array(
+			"{$dbr->tableName( 'material' )}.id='".$r[1]."'" ) ) )
+ 	);
+	$this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>".$array[$i]."</th><th>Timestamp</th></tr>");
+	
+	foreach( $res as $row ) {
+		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+
+	}
+	$this->getOutput()->addHTML("</table><br>");}
+}
+else{
+
 	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
 	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 	//echo $count = count($);
@@ -123,13 +167,13 @@ else
 		array( $array[$i] => array( 'INNER JOIN', array(
 			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
  	);
-	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>".$array[$i]."</th><th>Timestamp</th></tr>");
+	$this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>".$array[$i]."</th><th>Timestamp</th></tr>");
 	foreach( $res as $row ) {
 		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
 
 	}
 	$this->getOutput()->addHTML("</table><br>");}
-
+}
 }
 }
 }
