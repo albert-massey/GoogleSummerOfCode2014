@@ -52,10 +52,19 @@ $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Material already exists</
 else{
 $res=$dbr->insert('material',$r,__METHOD__);
 $this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
+
+$res1=$dbr->select('material',array('max(id)'),"",__METHOD__);
+$id=0;
+foreach($res1 as $f){
+foreach($f as $t){
+$id=$t; /** get maximum value of ID */
+}
+}
+
 for($i=0;$i<=$limit;$i++){
 if($_POST['d'.$i]!=NULL){
 $data=array('value'=>$_POST['d'.$i],
-'mat_id'=>$new_id,
+'mat_id'=>$id,
 );
 $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 }
@@ -114,7 +123,7 @@ else
 		array( $array[$i] => array( 'INNER JOIN', array(
 			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
  	);
-	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>$array[$i]</th><th>Timestamp</th></tr>");
+	$this->getOutput()->addHTML("<table border='1' width='250' height='30' cellspacing='1' cellpadding='3'><tr><th>Material_Name</th><th>".$array[$i]."</th><th>Timestamp</th></tr>");
 	foreach( $res as $row ) {
 		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
 
@@ -161,13 +170,16 @@ $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Trait already exists</h4>
 }
 else{
 $dbw->query("CREATE TABLE `".$wgDBprefix.$strtolower."` (
-  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `id` int(20) unsigned NOT NULL auto_increment,
   `value` varchar(64) default NULL,
-  `mat_id` bigint(5) default NULL,
+  `mat_id` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+  KEY `FK".$wgDBprefix.$strtolower."` (`mat_id`)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
+");
+$dbw->query("ALTER TABLE `".$wgDBprefix.$strtolower."`
+  ADD CONSTRAINT `FK".$wgDBprefix.$strtolower."` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ");
 $res=$dbr->insert('trait_table',$r,__METHOD__);
 $this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
