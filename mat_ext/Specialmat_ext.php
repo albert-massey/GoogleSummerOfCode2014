@@ -74,7 +74,7 @@ $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 
 /** End of insertion code */
 /** This code used for create  data entering form */
-$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php/Special:mat_ext_one'>Click</a> to add new trait</h3>");
+$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'>Click</a> to add new trait</h3>");
 $this->getOutput()->setPageTitle( 'Add New Material' );
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
 <table><tr><td>Material Name</td><td><input required type='text' name='t1'></tr>
@@ -146,7 +146,7 @@ $r[1]=$d->id;
 }
 else{
 
-	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+	$this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
 	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 	//echo $count = count($);
 	$g=0;
@@ -206,8 +206,9 @@ $g++;
 if(isset($_POST['addtrait'])){
 $r=array('id'=>0,
 'trait_name'=>str_ireplace(" ", "_", strtolower($_POST['trait_name'])),
-'t_type'=>$_POST['trait_type']);
-echo $strtolower = str_ireplace(" ", "_", strtolower($_POST['trait_name']));
+'t_type'=>$_POST['trait_type'],
+'u_type'=>$_POST['units']);
+$strtolower = str_ireplace(" ", "_", strtolower($_POST['trait_name']));
 if(in_array($strtolower,$array))
 {
 $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Trait already exists</h4>");
@@ -233,16 +234,23 @@ $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SE
 <table><tr><td>Trait Name</td><td><input required type='text' name='trait_name'></tr>
 <tr><td>Trait Type</td><td><select required  name='trait_type'>");
 $tarray=$dbr->select('trait_type',array('id','type'),"",__METHOD__);
-foreach($tarray as $type){
-$this->getOutput()->addHTML("<option value= ".$type->id.">".$type->type."</option>");
+foreach($tarray as $ttype){
+$this->getOutput()->addHTML("<option value= ".$ttype->id.">".$ttype->type."</option>");
 } 
 $this->getOutput()->addHTML("</select></td></tr>
-<tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form><h4 style='color:#FF0000'><a href='http://localhost/mediawiki-1.22.7/index.php/Special:Mat_ext'>Add Material</a></h4>");
+<tr><td>Trait Units(SI)</td><td><select required name='units'>");
+$uarray=$dbr->select('trait_units',array('id','units'),"",__METHOD__);
+foreach($uarray as $utype){
+$this->getOutput()->addHTML("<option value=".$utype->id.">".$utype->units."</option>");
+}
+$this->getOutput()->addHTML("</select></td></tr>
+<tr><td><input type='submit' value='Add' name='addtrait' ></td></tr></table></form><h4 style='color:#FF0000'><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:Mat_ext'>Add Material</a></h4>");
 
 } //LogIn
+
 else
 {
-        $this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://localhost/mediawiki-1.22.7/index.php?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+        $this->getOutput()->addHTML("<h3 style='color:red'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
 }
 }
 }

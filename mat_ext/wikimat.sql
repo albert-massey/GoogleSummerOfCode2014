@@ -24,10 +24,10 @@ CREATE TABLE `wiki_material` (
   `userID` int(20) unsigned NOT NULL default '0',
   `mat_private` tinyint(1) NOT NULL default '0',
   `description` text,
-  `mat_type` tinyint(2) NOT NULL default '0',
+  `mat_type` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+  KEY `FKmaterial` (`mat_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 --
 -- Dumping data for table `wiki_material`
@@ -216,10 +216,12 @@ DROP TABLE IF EXISTS `wiki_trait_table`;
 CREATE TABLE `wiki_trait_table` (
   `id` int(20) unsigned NOT NULL auto_increment,
   `trait_name` varchar(64) default NULL,
-  `t_type` int default '0',
+  `t_type` int(20) unsigned default '0',
+  `u_type` int(20) unsigned default '0',
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+  KEY `FKtrait_table_t` (`t_type`),
+  KEY `FKtrait_table_u` (`u_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -228,7 +230,7 @@ CREATE TABLE `wiki_trait_table` (
 
 LOCK TABLES `wiki_trait_table` WRITE;
 /*!40000 ALTER TABLE `wiki_trait_table` DISABLE KEYS */;
-INSERT INTO `wiki_trait_table` VALUES (1,'boiling_point',3,'2006-04-25 20:24:04'),(2,'density',3,'2006-04-25 20:24:04'),(3,'melting_point',3,'2006-04-25 20:24:04'),(4,'specific_heat',3,'2006-04-25 20:24:04'),(5,'tensile_strength',1,'2006-04-25 20:24:04');
+INSERT INTO `wiki_trait_table` VALUES (1,'boiling_point',3,2,'2006-04-25 20:24:04'),(2,'density',3,1,'2006-04-25 20:24:04'),(3,'melting_point',3,2,'2006-04-25 20:24:04'),(4,'specific_heat',3,4,'2006-04-25 20:24:04'),(5,'tensile_strength',1,5,'2006-04-25 20:24:04');
 /*!40000 ALTER TABLE `wiki_trait_table` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +253,7 @@ CREATE TABLE `wiki_trait_units` (
 
 LOCK TABLES `wiki_trait_units` WRITE;
 /*!40000 ALTER TABLE `wiki_trait_units` DISABLE KEYS */;
-INSERT INTO `wiki_trait_units` VALUES (1,'g/cm^3','2014-06-12 14:41:40'),(2,'C','2014-06-12 14:41:40'),(3,'C','2006-04-26 14:21:33'),(4,'cal/g C','2006-04-26 15:21:33'),(5,'psi','2014-06-12 14:41:40');
+INSERT INTO `wiki_trait_units` VALUES (1,'g/cm^3','2014-06-12 14:41:40'),(2,'C','2014-06-12 14:41:40'),(3,'N','2006-04-26 14:21:33'),(4,'cal/g C','2006-04-26 15:21:33'),(5,'psi','2014-06-12 14:41:40');
 /*!40000 ALTER TABLE `wiki_trait_units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,6 +276,12 @@ ALTER TABLE `wiki_tensile_strength`
   ADD CONSTRAINT `FKtensile_strength` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_boiling_point`
   ADD CONSTRAINT `FKboiling_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ALTER TABLE `wiki_material`
+  ADD CONSTRAINT `FKmaterial` FOREIGN KEY (`mat_type`) REFERENCES `wiki_material_type` (`id`);
+ALTER TABLE `wiki_trait_table`
+  ADD CONSTRAINT `FKtrait_table_t` FOREIGN KEY (`t_type`) REFERENCES `wiki_trait_type` (`id`);
+ALTER TABLE `wiki_trait_table`
+  ADD CONSTRAINT `FKtrait_table_u` FOREIGN KEY (`u_type`) REFERENCES `wiki_trait_units` (`id`);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
