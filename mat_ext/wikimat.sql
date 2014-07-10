@@ -267,21 +267,21 @@ UNLOCK TABLES;
 /*ALTER TABLE `wiki_boiling_point`
   ADD CONSTRAINT `FK_wiki_material` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);*/
 ALTER TABLE `wiki_density`
-  ADD CONSTRAINT `FKdensity` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FKdensity` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_melting_point`
-  ADD CONSTRAINT `FKmelting_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FKmelting_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_specific_heat`
-  ADD CONSTRAINT `FKspecific_heat` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FKspecific_heat` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_tensile_strength`
-  ADD CONSTRAINT `FKtensile_strength` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FKtensile_strength` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_boiling_point`
-  ADD CONSTRAINT `FKboiling_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FKboiling_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_material`
-  ADD CONSTRAINT `FKmaterial` FOREIGN KEY (`mat_type`) REFERENCES `wiki_material_type` (`id`);
+  ADD CONSTRAINT `FKmaterial` FOREIGN KEY (`mat_type`) REFERENCES `wiki_material_type` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_trait_table`
-  ADD CONSTRAINT `FKtrait_table_t` FOREIGN KEY (`t_type`) REFERENCES `wiki_trait_type` (`id`);
+  ADD CONSTRAINT `FKtrait_table_t` FOREIGN KEY (`t_type`) REFERENCES `wiki_trait_type` (`id`) ON DELETE CASCADE;
 ALTER TABLE `wiki_trait_table`
-  ADD CONSTRAINT `FKtrait_table_u` FOREIGN KEY (`u_type`) REFERENCES `wiki_trait_units` (`id`);
+  ADD CONSTRAINT `FKtrait_table_u` FOREIGN KEY (`u_type`) REFERENCES `wiki_trait_units` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

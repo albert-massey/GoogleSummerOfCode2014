@@ -224,7 +224,7 @@ $dbw->query("CREATE TABLE `".$wgDBprefix.$strtolower."` (
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 ");
 $dbw->query("ALTER TABLE `".$wgDBprefix.$strtolower."`
-  ADD CONSTRAINT `FK".$wgDBprefix.$strtolower."` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+  ADD CONSTRAINT `FK".$wgDBprefix.$strtolower."` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
 ");
 $res=$dbr->insert('trait_table',$r,__METHOD__);
 $this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");
