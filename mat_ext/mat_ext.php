@@ -39,27 +39,17 @@ $wgExtensionCredits['specialpage'][]=array(
 );
 
 $dir=dirname(__FILE__).DIRECTORY_SEPARATOR;
+
 $wgAutoloadClasses['Specialmat_ext']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_one']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_del']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_delm']=$dir.'Specialmat_ext.php';
 $wgExtensionMessagesFiles['mat_ext'] = $dir .'mat_ext.i18n.php';
 $wgExtensionMessagesFiles['mat_extAlias'] = $dir .'v.alias.php';
 $wgSpecialPages['mat_ext']='Specialmat_ext';
+$wgSpecialPages['mat_ext_one']='Specialmat_ext_one';
+$wgSpecialPages['mat_ext_del']='Specialmat_ext_del';
+$wgSpecialPages['mat_ext_delm']='Specialmat_ext_delm';
 $wgSpecialPageGroups['mat_ext']='other';
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
