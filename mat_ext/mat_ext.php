@@ -34,8 +34,8 @@ $wgExtensionCredits['specialpage'][]=array(
 'name'=>'mat_ext',
 'author'=>'Albert Coder',
 'version'=>'1.0',
-'url'=>'Coderalbert.wordpress.com',
-'descriptionmsg'=>'Displays the desired text on wikipage',
+'url'=>'Coderalbert\'s',
+'descriptionmsg'=>'This project is all about making a web application where users can easily store/retrieve the properties or traits of materials in a methodical manner such that those can be retrieved effortlessly.',
 );
 
 $dir=dirname(__FILE__).DIRECTORY_SEPARATOR;
@@ -43,13 +43,21 @@ $dir=dirname(__FILE__).DIRECTORY_SEPARATOR;
 $wgAutoloadClasses['Specialmat_ext']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_one']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_del']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_links']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_delm']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_viewall']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_searcht']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_searchm']=$dir.'Specialmat_ext.php';
 $wgExtensionMessagesFiles['mat_ext'] = $dir .'mat_ext.i18n.php';
 $wgExtensionMessagesFiles['mat_extAlias'] = $dir .'v.alias.php';
 $wgSpecialPages['mat_ext']='Specialmat_ext';
 $wgSpecialPages['mat_ext_one']='Specialmat_ext_one';
 $wgSpecialPages['mat_ext_del']='Specialmat_ext_del';
+$wgSpecialPages['mat_ext_links']='Specialmat_ext_links';
 $wgSpecialPages['mat_ext_delm']='Specialmat_ext_delm';
+$wgSpecialPages['mat_ext_viewall']='Specialmat_ext_viewall';
+$wgSpecialPages['mat_ext_searcht']='Specialmat_ext_searcht';
+$wgSpecialPages['mat_ext_searchm']='Specialmat_ext_searchm';
 $wgSpecialPageGroups['mat_ext']='other';
 ?>
 
