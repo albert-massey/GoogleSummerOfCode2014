@@ -12,7 +12,9 @@ $name=$wgUser->getId();
 $dbr=wfGetDB(DB_SLAVE);
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
 if($wgUser->isLoggedIn()){
-			   $this->getOutput()->addHTML("<style>
+	/**This code makes the menu bar at the top of each page */
+
+	$this->getOutput()->addHTML("<style>
 #menu ul{
   list-style: none;
   }
@@ -40,6 +42,25 @@ if($wgUser->isLoggedIn()){
 
                     </body>
                     ");
+
+
+/** This code used for create  data entering form */
+$this->getOutput()->setPageTitle( 'Add New Material' );
+$this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
+<table><tr><td>Material Name</td><td><input required type='text' title='Example: Carbon'  name='t1'></tr>
+ <tr><td>Material Privacy</td><td><input required type='radio' name='t3' value='1' checked>Public &nbsp;&nbsp;&nbsp;
+<input required type='radio' name='t3' value='0'>Private</td></tr>
+<tr><td>Material Description</td><td><input required type='text' name='t4'></td></tr>
+<tr><td>Material Type</td><td><select name='t5'>
+<option value='1'>Metal</option>
+<option value='2'>Non-metal</option>
+<option value='3'>Fluid</option>
+<option value='4'>Plastic</option>
+</select></td></tr>
+</table>");
+$this->getOutput()->addHTML("<h4>Enter the values in <i>SI units</i></h4>");
+
+
 
 /** This code used for insert the data in database */
 $res1=$dbr->select('material',array('max(id)'),"",__METHOD__);
@@ -101,29 +122,12 @@ $res3=$dbr->insert($_POST[$i],$data,__METHOD__);
 }
 
 /** End of insertion code */
-/** This code used for create  data entering form */
-//$this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'>Click</a> to add new trait</h3>");
-$this->getOutput()->setPageTitle( 'Add New Material' );
-$this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext' method='post'>
-<table><tr><td>Material Name</td><td><input required type='text' name='t1'></tr>
- <tr><td>Material Privacy</td><td><input required type='radio' name='t3' value='1' checked>Public &nbsp;&nbsp;&nbsp;
-<input required type='radio' name='t3' value='0'>Private</td></tr>
-<tr><td>Material Description</td><td><input required type='text' name='t4'></td></tr>
-<tr><td>Material Type</td><td><select name='t5'>
-<option value='1'>Metal</option>
-<option value='2'>Non-metal</option>
-<option value='3'>Fluid</option>
-<option value='4'>Plastic</option>
-</select></td></tr>
-</table>");
-$this->getOutput()->addHTML("<h4>Enter the values in <i>SI units</i></h4>");
-
 /** This code makes dynamic traits for material */
 $res=$dbr->select('trait_table',array('trait_name','id'),"",__METHOD__);
 $v=0;
 $this->getOutput()->addHTML("<table>");
 foreach($res as $data){
-$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".ucwords(str_ireplace("_", " ", $data->trait_name))."</td><td><input type='text' name='d".$v."' placeholder='Enter the value of ".$data->trait_name."'></td></tr>");
+$this->getOutput()->addHTML("<tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".ucwords(str_ireplace("_", " ", $data->trait_name))."</td><td><input type='text' name='d".$v."' pattern='^[0-9]*\.?[0-9]*?$' title='Example: Density of water=1.0887'  placeholder='Enter the value of ".$data->trait_name."'></td></tr>");
 $v++;
 }
 $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form>");
