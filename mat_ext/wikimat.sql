@@ -20,11 +20,11 @@
 DROP TABLE IF EXISTS `wiki_material`;
 CREATE TABLE `wiki_material` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `material_name` varchar(64) NOT NULL default '',
-  `userID` int(20) unsigned NOT NULL default '0',
-  `mat_private` tinyint(1) NOT NULL default '0',
+  `material_name` varchar(50) NOT NULL default '',
+  `userID` int(10) unsigned NOT NULL default '0',
+  `mat_private` int(1) NOT NULL default '0',
   `description` text,
-  `mat_type` int(20) unsigned NULL,
+  `mat_type` int(20) unsigned NOT NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `FKmaterial` (`mat_type`)
@@ -47,8 +47,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_boiling_point`;
 CREATE TABLE `wiki_boiling_point` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64)  NULL,
-  `mat_id` int(20) unsigned NULL,
+  `value` decimal(20,8) default NULL,
+  `mat_id` int(20) unsigned  NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `FKboiling_point` (`mat_id`)
@@ -71,7 +71,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_density`;
 CREATE TABLE `wiki_density` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
+  `value` decimal(20,8) default NULL,
   `mat_id` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
@@ -94,7 +94,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_melting_point`;
 CREATE TABLE `wiki_melting_point` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
+  `value` decimal(20,8) default NULL,
   `mat_id` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
@@ -118,7 +118,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_specific_heat`;
 CREATE TABLE `wiki_specific_heat` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
+  `value` decimal(20,8) default NULL,
   `mat_id` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
@@ -142,7 +142,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_tensile_strength`;
 CREATE TABLE `wiki_tensile_strength` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
+  `value` decimal(20,8) default NULL,
   `mat_id` int(20) unsigned NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
@@ -166,7 +166,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_trait_type`;
 CREATE TABLE `wiki_trait_type` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `type` varchar(64) default NULL,
+  `type` varchar(50) default NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
@@ -189,7 +189,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_material_type`;
 CREATE TABLE `wiki_material_type` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `mtype` varchar(64) default NULL,
+  `mtype` varchar(50) default NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
@@ -215,7 +215,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_trait_table`;
 CREATE TABLE `wiki_trait_table` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `trait_name` varchar(64) default NULL,
+  `trait_name` varchar(50) default NULL,
+  `userID` int NULL default '0',
   `t_type` int(20) unsigned default '0',
   `u_type` int(20) unsigned default '0',
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
@@ -230,7 +231,7 @@ CREATE TABLE `wiki_trait_table` (
 
 LOCK TABLES `wiki_trait_table` WRITE;
 /*!40000 ALTER TABLE `wiki_trait_table` DISABLE KEYS */;
-INSERT INTO `wiki_trait_table` VALUES (1,'boiling_point',3,2,'2006-04-25 20:24:04'),(2,'density',3,1,'2006-04-25 20:24:04'),(3,'melting_point',3,2,'2006-04-25 20:24:04'),(4,'specific_heat',3,4,'2006-04-25 20:24:04'),(5,'tensile_strength',1,5,'2006-04-25 20:24:04');
+INSERT INTO `wiki_trait_table` VALUES (1,'boiling_point',1,3,2,'2006-04-25 20:24:04'),(2,'density',2,3,1,'2006-04-25 20:24:04'),(3,'melting_point',3,3,2,'2006-04-25 20:24:04'),(4,'specific_heat',4,3,4,'2006-04-25 20:24:04'),(5,'tensile_strength',5,1,5,'2006-04-25 20:24:04');
 /*!40000 ALTER TABLE `wiki_trait_table` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +242,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `wiki_trait_units`;
 CREATE TABLE `wiki_trait_units` (
   `id` int(20) unsigned NOT NULL auto_increment,
-  `units` varchar(64) default NULL,
+  `units` varchar(50) default NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `id` (`id`)
