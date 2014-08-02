@@ -48,6 +48,8 @@ $wgAutoloadClasses['Specialmat_ext_delm']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_viewall']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_searcht']=$dir.'Specialmat_ext.php';
 $wgAutoloadClasses['Specialmat_ext_searchm']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_update']=$dir.'Specialmat_ext.php';
+$wgAutoloadClasses['Specialmat_ext_export']=$dir.'Specialmat_ext.php';
 $wgExtensionMessagesFiles['mat_ext'] = $dir .'mat_ext.i18n.php';
 $wgExtensionMessagesFiles['mat_extAlias'] = $dir .'v.alias.php';
 $wgSpecialPages['mat_ext']='Specialmat_ext';
@@ -58,6 +60,8 @@ $wgSpecialPages['mat_ext_delm']='Specialmat_ext_delm';
 $wgSpecialPages['mat_ext_viewall']='Specialmat_ext_viewall';
 $wgSpecialPages['mat_ext_searcht']='Specialmat_ext_searcht';
 $wgSpecialPages['mat_ext_searchm']='Specialmat_ext_searchm';
+$wgSpecialPages['mat_ext_update']='Specialmat_ext_update';
+$wgSpecialPages['mat_ext_export']='Specialmat_ext_export';
 $wgSpecialPageGroups['mat_ext']='other';
 ?>
 
