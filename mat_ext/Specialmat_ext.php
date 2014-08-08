@@ -170,7 +170,7 @@ else
  array( $array[$i] => array( 'INNER JOIN', array(
  "{$dbr->tableName( 'material' )}.id='".$r[1]."'" ) ) )
    );
-   $this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
+   $this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
 
    foreach( $res as $row ) {
    $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
@@ -181,7 +181,7 @@ else
    else{
 
    $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
-   $this->getOutput()->addHTML("<h3 style='color:black'>Please ENTER Material Name</h3>");
+   //$this->getOutput()->addHTML("<h3 style='color:black'>Please ENTER Material Name</h3>");
    $res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
    $g=0;
    foreach($res2 as $samedata){
@@ -201,7 +201,7 @@ else
    array( $array[$i] => array( 'INNER JOIN', array(
    "{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
      );
-     $this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
+     $this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
      foreach( $res as $row ) {
      $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
 
@@ -473,12 +473,17 @@ parent::__construct('mat_ext_links');
 }
 public function execute($sub){
 	global $wgUser;
+	global $wgDBprefix;
 $name=$wgUser->getId();
 if($wgUser->isLoggedIn()){
 	$dbr=wfGetDB(DB_SLAVE);
 	$this->getOutput()->setPageTitle( 'Links under Materials Database extension' );
 	$dbw = wfGetDB( DB_MASTER );	
-		   $this->getOutput()->addHTML("<style>
+        $this->getOutput()->addHTML("
+                
+                
+                
+                <style>
 #menu ul{
   list-style: none;
   }
@@ -493,9 +498,9 @@ if($wgUser->isLoggedIn()){
 
     <body>
       <ul>
-          <li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'><img style='border:0;' src='smiley.gif' alt='Add new material' width='42' height='42' title='add new material'></a></li>
+          <li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/rsz_brl-cad_logo.png' alt='Smiley' width='32' height='32'></a></li>
 	  &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'><img style='border:0;' src='smiley.gif' alt='Add new trait' width='42' height='42' title='add new trait'></a></li>
-         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'><img style='border:0;' src='smiley.gif' alt='Delete material' width='42' height='42' title='delete material'></a></li>
+         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/rsz_brl-cad_logo.png' alt='Smiley' width='32' height='32'></a></li>
         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'><img style='border:0;' src='smiley.gif' alt='Delete trait' width='42' height='42' title='delete trait'></a></li>
         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_viewall'><img style='border:0;' src='smiley.gif' alt='View all materials' width='42' height='42' title='view all materials'></a></li>
          &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'><img style='border:0;' src='smiley.gif' alt='Search by TRAIT' width='42' height='42' title='search by TRAIT'></a></li>
@@ -506,14 +511,86 @@ if($wgUser->isLoggedIn()){
 
                     </body>
                     ");
+    $this->getOutput()->addHTML("<nav>
+              <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'>Add Material</a> |
+                <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'>Add Trait</a> |
+                <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'>Delete Material</a> |
+                    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'>Delete Trait</a>
+                <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_viewall'>View All Materials</a> |
+                <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'>Search by Trait</a> |
+                <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searchm'>Search by Material</a> |
+                  <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_export'>Export</a> |
+                    </nav> ");
+	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+	//echo $count = count($);
+	$g=0;
+	foreach($res2 as $samedata){
+	$array[$g] = $samedata->trait_name;
+	$count = $g+1;
+	$g++;
+	} 
+        for($i=0; $i<$count; $i++ ){
+	$res = $dbr->select(
+		array( 'material',$array[$i]),
+		array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.mat_id","{$dbr->tableName( $array[$i] )}.timestamp","{$dbr->tablename('material')}.status" ),
+		array(
+			'mat_id>0'
+		),
+		__METHOD__,
+		array(),
+		array( $array[$i] => array( 'INNER JOIN', array(
+			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
+ 	);
+        $this->getOutput()->addHTML("<form action=http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:Mat_ext_links method='post'>
+                
+                <table border='1' width='600' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th><th>Check to Approve</th></tr>");
+	foreach( $res as $row ) {
+		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."<td><input type='checkbox' name='" .$array[$i].$row->mat_id."' value='".$row->mat_id."'></td></tr>");
+              echo $array[$i].$row->mat_id;
+                //
+                //echo $_POST[$dbr->tableName( $array[$i] ).$row->mat_id]; 
+                $dbr->tableName( $array[$i] ).$row->mat_id;
+                if(isset($_POST[$array[$i].$row->mat_id])){
 
+                $dbw->query(" UPDATE ".$wgDBprefix.$array[$i]." 
+                        SET status='1'
+                        WHERE mat_id='".$_POST[$array[$i].$row->mat_id]."'  ");
+	}}}
+        
+        if(isset($_POST['approve'])){       
+                       echo $_POST[$dbr->tableName( $array[$i] ).$row->mat_id]; 
+         $dbr->tableName( $array[$i] ).$row->mat_id;
+                $dbw->query(" UPDATE ".$wgDBprefix.$array[$i]." 
+                        SET status='1'
+	        WHERE mat_id='".$_POST[$dbr->tableName( $array[$i] ).$row->mat_id]."'  ");
+        }
+
+        
+                $this->getOutput()->addHTML("<input type=submit value=approve></table></form><br>");
 	$this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'>Click</a> to add new material</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'>Click</a> to add new trait</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'>Click</a> to delete a trait</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'>Click</a> to delete a material</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_viewall'>Click</a> to view all materials</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'>Click</a> to search TRAIT by name</h3>");
-        $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searchm'>Click</a> to search MATERIAL by name</h3>");
+        $this->getOutput()->addHTML("<head>
+                <script>
+function bigImg(x)
+{
+        x.style.height='64px';
+        x.style.width='64px';
+}
+
+function normalImg(x)
+{
+        x.style.height='32px';
+        x.style.width='32px';
+}
+</script>
+        </head>
+        <body>
+        
+        <img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/rsz_brl-cad_logo.png' alt='Smiley' width='32' height='32'>
+        
+        <p>The function bigImg() is triggered when the user moves the mouse pointer over the image.</p>
+        <p>The function normalImg() is triggered when the mouse pointer is moved out of the image.</p>
+        
+        </body>");
 }
 
 
@@ -581,7 +658,7 @@ public function execute($sub){
 		array( $array[$i] => array( 'INNER JOIN', array(
 			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
  	);
-	$this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th></tr>");
+	$this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th></tr>");
 	foreach( $res as $row ) {
 		$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."</tr>");
 
@@ -666,7 +743,7 @@ $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Sorry You don't have any 
 
 	$res = $dbr->select(
 		array( 'material',$_POST['searcht']),
-		array( 'material_name','value',"{$dbr->tableName( $_POST['searcht'] )}.timestamp" ),
+		array( 'material_name','value',"{$dbr->tableName( $_POST['searcht'] )}.timestamp","{$dbr->tablename('material')}.status" ),
 		array(
 			'mat_id>0'
 		),
@@ -675,10 +752,10 @@ $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Sorry You don't have any 
 		array( $_POST['searcht'] => array( 'INNER JOIN', array(
 			"{$dbr->tableName( 'material' )}.id=mat_id" ) ) )
  	);
-	$this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $_POST['searcht']))."</th><th>Timestamp</th></tr>");
+	$this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $_POST['searcht']))."</th><th>Timestamp</th><th>Status</th></tr>");
 
 	foreach( $res as $row ) {
-		$this->getOutput()->addHTML("<tr><td>".ucwords(str_ireplace("_", " ", $row->material_name))."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+		$this->getOutput()->addHTML("<tr><td>".ucwords(str_ireplace("_", " ", $row->material_name))."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."</td></tr>");
 
 	}
 	$this->getOutput()->addHTML("</table><br>");
@@ -753,7 +830,7 @@ $this->getOutput()->addHTML("</select></td></tr>
  for($i=0; $i<sizeof($array); $i++ ){
  $res = $dbr->select(
  array( 'material',$array[$i]),
- array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
+ array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp","{$dbr->tablename($array[$i])}.status" ),
  array(
  "mat_id='".$r[1]."'"
  ),
@@ -762,10 +839,10 @@ $this->getOutput()->addHTML("</select></td></tr>
  array( $array[$i] => array( 'INNER JOIN', array(
  "{$dbr->tableName( 'material' )}.id='".$r[1]."'" ) ) )
    );
-   $this->getOutput()->addHTML("<table border='1' width='450' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
+   $this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th></tr>");
 
    foreach( $res as $row ) {
-   $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+   $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."</td></tr>");
 
    }
    $this->getOutput()->addHTML("</table><br>");}
