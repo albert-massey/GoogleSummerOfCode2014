@@ -87,8 +87,8 @@ $combine=array_combine($arraymaterial,$arrayexport);
  $json_material= json_encode($combine);
  $myFile = "bp.json";                                             
  $fh = fopen($myFile, 'w') or die("can't open file");                  
- $stringData = "$json_material";                                       
- fwrite($fh, $json_material);                                             
+ $stringData = str_ireplace("Carbon","Peter",$json_material);                                       
+ fwrite($fh, $stringData);                                             
  fclose($fh);         
 /*
  // We'll be outputting a PDF
