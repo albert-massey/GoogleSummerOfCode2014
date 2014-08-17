@@ -18,28 +18,17 @@ $this->getOutput()->setPageTitle( 'Materials Database Extension' );
 if($wgUser->isLoggedIn()){
 	/**This code makes the menu bar at the top of each page */
 
-	$this->getOutput()->addHTML("<style>
-#menu ul{
-  list-style: none;
-  }
-  #menu li{
-    display: inline;
-    }
-    </style>
-    <div id='menu'>
-    <body>
-      <ul>
-          <li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'><img style='border:0;' src='smiley.gif' alt='Add new material' width='42' height='42' title='add new material'></a></li>
-	  &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'><img style='border:0;' src='smiley.gif' alt='Add new trait' width='42' height='42' title='add new trait'></a></li>
-         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'><img style='border:0;' src='smiley.gif' alt='Delete material' width='42' height='42' title='delete material'></a></li>
-        &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'><img style='border:0;' src='smiley.gif' alt='Delete trait' width='42' height='42' title='delete trait'></a></li>
-        &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_viewall'><img style='border:0;' src='smiley.gif' alt='View all materials' width='42' height='42' title='view all materials'></a></li>
-         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'><img style='border:0;' src='smiley.gif' alt='Search by TRAIT' width='42' height='42' title='search by TRAIT'></a></li>
-         &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searchm'><img style='border:0;' src='smiley.gif' alt='Search by MATERIAL' width='42' height='42' title='search by MATERIAL'></a></li>
-                    </ul>
-                    </div>
-                    </body>
-                    ");
+	$this->getOutput()->addHTML(" <nav>
+       <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/add158.svg' title='Add Material' alt='Smiley' width='32' height='32'></a>|
+      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_one'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/bookmark19.svg' title='Add Trait' alt='Smiley' width='32' height='32'></a> |
+      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm'><img onmouseover=onmouseover='style.color='red''
+      onmouseout='style.color='black'' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/delete48.svg' title='Delete Material' alt='Smiley' width='32' height='32'></a> |
+      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/bin2.svg' title='Delete Trait' alt='Smiley' width='32' height='32'></a> |
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_viewall'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/male226.svg' title='View all Materials' alt='Smiley' width='32' height='32'></a> |
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'></a> |
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searchm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'></a> |
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_export'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'></a> | 
+                    </nav><br>                   ");
 /** This code used for create  data entering form */
 $this->getOutput()->setPageTitle( 'Add New Material' );
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_export' method='post'>
@@ -84,11 +73,21 @@ foreach($valuebp as $samedata){
 $combine=array_combine($arraymaterial,$arrayexport);
 //print_r($combine);
 //echo json_encode($combine);
- $json_material= json_encode($combine);
+
+
+$export = array();
+
+for($i=0;  $i<5;$i++) {
+            $export[] = array('Material' => $arraymaterial[$i],
+                                          ucwords(str_ireplace("_", " ", $_POST['exportselect'])) => $arrayexport[$i]);
+}
+
+
+$json_material= json_encode($export);
  $myFile = "bp.json";                                             
  $fh = fopen($myFile, 'w') or die("can't open file");                  
  $stringData = str_ireplace("Carbon","Peter",$json_material);                                       
- fwrite($fh, $stringData);                                             
+ fwrite($fh, $json_material);                                             
  fclose($fh);         
 /*
  // We'll be outputting a PDF
@@ -100,7 +99,7 @@ $combine=array_combine($arraymaterial,$arrayexport);
  // The PDF source is in original.pdf
   readfile('bp.json');*/
 
-$filename="sample.json";
+$filename=$_POST['exportselect'].".json";
 $file="/var/www/mediawiki-1.22.7/$myFile";
 $len = filesize($file); // Calculate File Size
 ob_clean();
