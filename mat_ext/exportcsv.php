@@ -4,10 +4,9 @@ public function __construct(){
 parent::__construct('mat_ext_exportcsv');
 }
 public function execute($sub){
-	global $wgUser;
 	global $wgDBprefix;
-$name=$wgUser->getId();
-if($wgUser->isLoggedIn()){
+$name=$this->getUser()->getId();
+if($this->getUser()->isLoggedIn()){
 	$dbr=wfGetDB(DB_SLAVE);
 	$this->getOutput()->setPageTitle( 'Export in CSV' );
 	$dbw = wfGetDB( DB_MASTER );	

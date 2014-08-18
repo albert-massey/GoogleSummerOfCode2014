@@ -4,11 +4,10 @@ public function __construct(){
 parent::__construct('mat_ext');
 }
 public function execute($sub){
-	global $wgOut;
 	global $array;
 	$wiki_message = 'J3';
-	$wgOut->setPageTitle( wfMessage('Materials Database Extension'));
-	$wgOut->addWikiMsg('hi-hello');
+	$this->getOutput()->setPageTitle( wfMessage('Materials Database Extension'));
+	$this->getOutput()->addWikiMsg('hi-hello');
 	$dbr = wfGetDB( DB_SLAVE );
 	$res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 	$g=0;

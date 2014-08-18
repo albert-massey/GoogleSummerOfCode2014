@@ -4,10 +4,8 @@ public function __construct(){
 parent::__construct('mat_ext_delm');
 }
 public function execute($sub){
-	global $wgUser;
-$name=$wgUser->getId();
-if($wgUser->isLoggedIn()){
-	global $wgOut;
+$name=$this->getUser()->getId();
+if($this->getUser()->isLoggedIn()){
 	global $array;
 	global $wgDBprefix;
 	$dbr=wfGetDB(DB_SLAVE);
@@ -25,6 +23,19 @@ if($wgUser->isLoggedIn()){
      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_export'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'></a> | 
                     </nav><br> ");
 
+        $admins=array('bureaucrat','sysop');
+     //   echo $this->getUser()->getId();
+$user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
+$i=0;
+foreach($user_group as $ug_group){
+$array_ug[$i]=$ug_group->ug_group;
+$i++;
+}
+//echo $user_group->numRows();
+if( $user_group->numRows()==0){
+$this->getOutput()->addHTML("<h3> Sorry! You are not privileged to delete any of the materials.</h3>");
+}
+elseif( count($result=array_intersect($admins,$array_ug))!==0) {
 
 
 $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_delm' method='post'>
@@ -50,7 +61,7 @@ $this->getOutput()->addHTML("<h4 style='color:#FF0000'>Sorry You don't have any 
 }
  //LogIn
 
-
+}
 else
 {
         $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");

@@ -4,16 +4,33 @@ public function __construct(){
 parent::__construct('mat_ext_import');
 }
 public function execute($sub){
-	global $wgUser;
-$name=$wgUser->getId();
-if($wgUser->isLoggedIn()){
-	global $wgOut;
+if($this->getUser()->isLoggedIn()){
 	global $array;
 	global $wgDBprefix;
 	$dbr=wfGetDB(DB_SLAVE);
 	$this->getOutput()->setPageTitle( 'Delete Trait' );
-	$dbw = wfGetDB( DB_MASTER );
- $filename="/home/albertcoder/Downloads/density.json";
+        $dbw = wfGetDB( DB_MASTER );
+        
+$resdel=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+$this->getOutput()->addHTML("<form action='upload.php' method='post'>
+<table>");
+$this->getOutput()->addHTML("
+<tr><td>Select Trait to delete</td><td><select required name='traitsdel'>");
+$resdel=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
+foreach($resdel as $utype){
+$this->getOutput()->addHTML("<option value=".$utype->trait_name.">".$utype->trait_name."</option>");
+}
+
+$this->getOutput()->addHTML("enctype='multipart/form-data'>
+<label for='file'>Filename:</label>
+<input type='file' name='file' id='file'><br>
+<input type='submit' name='submit' value='Submit'>
+    </select></td></tr>
+<tr><td><input type='submit' value='Delete' name='del' ></td></tr></table></form>");
+
+
+       
+$filename="/home/albertcoder/Downloads/density.json";
 $a=fopen("/home/albertcoder/Downloads/density.json","r");
 $b=fread($a,filesize($filename));
 $d=str_replace ('[','',$b);
@@ -24,7 +41,6 @@ $i=str_replace ('"','',$h);
 $j=explode(",",$i);
 $k=count($j);
 $m=0;$n=0;
-global $matrial,$property;
 for($l=0;$l<$k;$l++){
     if($l%2==0){
         $o=explode(":",$j[$l]);

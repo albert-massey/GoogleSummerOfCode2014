@@ -4,10 +4,8 @@ public function __construct(){
 parent::__construct('mat_ext_one');
 }
 public function execute($sub){
-	global $wgUser;
-$name=$wgUser->getId();
-if($wgUser->isLoggedIn()){
-	global $wgOut;
+$name=$this->getUser()->getId();
+if($this->getUser()->isLoggedIn()){
 	global $array;
 	global $wgDBprefix;
 	$dbr=wfGetDB(DB_SLAVE);
@@ -30,7 +28,7 @@ if($wgUser->isLoggedIn()){
 
 
 
-	$wgOut->addWikiMsg('add_trait');
+	$this->getOutput()->addWikiMsg('add_trait');
 //$this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_del'>Click</a> to delete trait</h3>");
 $res2=$dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 $g=0;

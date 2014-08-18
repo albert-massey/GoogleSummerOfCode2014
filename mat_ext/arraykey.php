@@ -5,17 +5,15 @@ public function __construct(){
 parent::__construct('mat_ext_export');
 }
 public function execute($sub){
-global $wgOut;
 global $array;
-global $wgUser;
 global $count;
 global $wgDBprefix;
-$name=$wgUser->getId();
+$name=$this->getUser()->getId();
 $dbr=wfGetDB(DB_SLAVE);
 	$dbw = wfGetDB( DB_MASTER );	
 
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
-if($wgUser->isLoggedIn()){
+if($this->getUser()->isLoggedIn()){
 	/**This code makes the menu bar at the top of each page */
 
 	$this->getOutput()->addHTML(" <nav>

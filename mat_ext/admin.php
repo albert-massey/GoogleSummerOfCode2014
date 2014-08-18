@@ -4,7 +4,6 @@ public function __construct(){
 parent::__construct('mat_ext_admin');                                
 }                                                                    
 public function execute($sub){                                        
-global $wgOut;                                                        
 global $array;                                                        
 global $wgUser;                                                       
 global $count;                                                        

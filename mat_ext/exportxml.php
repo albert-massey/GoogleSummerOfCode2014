@@ -4,10 +4,9 @@ public function __construct(){
 parent::__construct('mat_ext_exportxml');
 }
 public function execute($sub){
-    global $wgUser;
 	global $wgDBprefix;
-$name=$wgUser->getId();
-if($wgUser->isLoggedIn()){
+$name=$this->getUser()->getId();
+if($this->getUser()->isLoggedIn()){
 	$dbr=wfGetDB(DB_SLAVE);
 	$this->getOutput()->setPageTitle( 'Export in XML' );
 	$dbw = wfGetDB( DB_MASTER );	
@@ -20,7 +19,7 @@ if($wgUser->isLoggedIn()){
 
  $connection=mysqli_connect($host,$uname,$pass,$database); 
 
- echo mysql_error();
+ echo mysqli_error($connection);
 
 // return all available tables 
 $result_tbl = mysqli_query($connection, "SHOW TABLES FROM ".$database." WHERE Tables_in_mikiwikidb = 'wiki_density'");

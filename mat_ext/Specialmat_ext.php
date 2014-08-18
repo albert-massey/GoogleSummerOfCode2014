@@ -4,14 +4,12 @@ public function __construct(){
 parent::__construct('mat_ext');
 }
 public function execute($sub){
-global $wgOut;
 global $array;
-global $wgUser;
 global $count;
-$name=$wgUser->getId();
+$name=$this->getUser()->getId();
 $dbr=wfGetDB(DB_SLAVE);
 $this->getOutput()->setPageTitle( 'Materials Database Extension' );
-if($wgUser->isLoggedIn()){
+if($this->getUser()->isLoggedIn()){
 	/**This code makes the menu bar at the top of each page */
         $this->getOutput()->addHTML("
                 <nav>
@@ -24,7 +22,11 @@ if($wgUser->isLoggedIn()){
      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searcht'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'></a> |
      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_searchm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'></a> |
      <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_export'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'></a> | 
-                    </nav><br>
+
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_import'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/1408288567_Import.png' title='Import' alt='Smiley' width='32' height='32'></a> | 
+
+     <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:mat_ext_update'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/mat_ext/images/pencil90.svg' title='Edit/Update' alt='Smiley' width='32' height='32'></a> | 
+     </nav><br>
                 
                 
                     ");
