@@ -19,15 +19,15 @@
 
 DROP TABLE IF EXISTS `wiki_material`;
 CREATE TABLE `wiki_material` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `material_name` varchar(64) NOT NULL default '',
-  `userID` int(20) unsigned NOT NULL default '0',
-  `mat_private` tinyint(1) NOT NULL default '0',
-  `description` text,
-  `mat_type` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKmaterial` (`mat_type`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`material_name` varchar(64) NOT NULL default '',
+`userID` int(20) unsigned NOT NULL default '0',
+`mat_private` tinyint(1) NOT NULL default '0',
+`description` text,
+`mat_type` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKmaterial` (`mat_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 --
 -- Dumping data for table `wiki_material`
@@ -46,12 +46,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_boiling_point`;
 CREATE TABLE `wiki_boiling_point` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64)  NULL,
-  `mat_id` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKboiling_point` (`mat_id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`value` varchar(64)  NULL,
+`mat_id` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKboiling_point` (`mat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -70,12 +70,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_density`;
 CREATE TABLE `wiki_density` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKdensity` (`mat_id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`value` varchar(64) default NULL,
+`mat_id` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKdensity` (`mat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 --
 -- Dumping data for table `wiki_density`
@@ -93,12 +93,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_melting_point`;
 CREATE TABLE `wiki_melting_point` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKmelting_point` (`mat_id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`value` varchar(64) default NULL,
+`mat_id` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKmelting_point` (`mat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -117,12 +117,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_specific_heat`;
 CREATE TABLE `wiki_specific_heat` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKspecific_heat` (`mat_id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`value` varchar(64) default NULL,
+`mat_id` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKspecific_heat` (`mat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -141,12 +141,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_tensile_strength`;
 CREATE TABLE `wiki_tensile_strength` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `value` varchar(64) default NULL,
-  `mat_id` int(20) unsigned NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKtensile_strength` (`mat_id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`value` varchar(64) default NULL,
+`mat_id` int(20) unsigned NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKtensile_strength` (`mat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -165,11 +165,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_trait_type`;
 CREATE TABLE `wiki_trait_type` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `type` varchar(64) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`type` varchar(64) default NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -188,11 +188,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_material_type`;
 CREATE TABLE `wiki_material_type` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `mtype` varchar(64) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`mtype` varchar(64) default NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -214,14 +214,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_trait_table`;
 CREATE TABLE `wiki_trait_table` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `trait_name` varchar(64) default NULL,
-  `t_type` int(20) unsigned default '0',
-  `u_type` int(20) unsigned default '0',
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `FKtrait_table_t` (`t_type`),
-  KEY `FKtrait_table_u` (`u_type`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`trait_name` varchar(64) default NULL,
+`t_type` int(20) unsigned default '0',
+`u_type` int(20) unsigned default '0',
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+KEY `FKtrait_table_t` (`t_type`),
+KEY `FKtrait_table_u` (`u_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -240,11 +240,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wiki_trait_units`;
 CREATE TABLE `wiki_trait_units` (
-  `id` int(20) unsigned NOT NULL auto_increment,
-  `units` varchar(64) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `id` (`id`)
+`id` int(20) unsigned NOT NULL auto_increment,
+`units` varchar(64) default NULL,
+`timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`),
+UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -265,23 +265,23 @@ UNLOCK TABLES;
 -- Constraints for table `wiki_boiling_point`
 --
 /*ALTER TABLE `wiki_boiling_point`
-  ADD CONSTRAINT `FK_wiki_material` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);*/
+ADD CONSTRAINT `FK_wiki_material` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);*/
 ALTER TABLE `wiki_density`
-  ADD CONSTRAINT `FKdensity` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ADD CONSTRAINT `FKdensity` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_melting_point`
-  ADD CONSTRAINT `FKmelting_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ADD CONSTRAINT `FKmelting_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_specific_heat`
-  ADD CONSTRAINT `FKspecific_heat` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ADD CONSTRAINT `FKspecific_heat` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_tensile_strength`
-  ADD CONSTRAINT `FKtensile_strength` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ADD CONSTRAINT `FKtensile_strength` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_boiling_point`
-  ADD CONSTRAINT `FKboiling_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
+ADD CONSTRAINT `FKboiling_point` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`);
 ALTER TABLE `wiki_material`
-  ADD CONSTRAINT `FKmaterial` FOREIGN KEY (`mat_type`) REFERENCES `wiki_material_type` (`id`);
+ADD CONSTRAINT `FKmaterial` FOREIGN KEY (`mat_type`) REFERENCES `wiki_material_type` (`id`);
 ALTER TABLE `wiki_trait_table`
-  ADD CONSTRAINT `FKtrait_table_t` FOREIGN KEY (`t_type`) REFERENCES `wiki_trait_type` (`id`);
+ADD CONSTRAINT `FKtrait_table_t` FOREIGN KEY (`t_type`) REFERENCES `wiki_trait_type` (`id`);
 ALTER TABLE `wiki_trait_table`
-  ADD CONSTRAINT `FKtrait_table_u` FOREIGN KEY (`u_type`) REFERENCES `wiki_trait_units` (`id`);
+ADD CONSTRAINT `FKtrait_table_u` FOREIGN KEY (`u_type`) REFERENCES `wiki_trait_units` (`id`);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

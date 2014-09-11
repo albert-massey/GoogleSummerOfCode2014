@@ -1,7 +1,7 @@
 <?php
-class Specialmat_ext1 extends SpecialPage{
+class Specialmaterials_database1 extends SpecialPage{
 public function __construct(){
-parent::__construct('mat_ext');
+parent::__construct('materials_database');
 }
 public function execute($sub){
 	global $array;
