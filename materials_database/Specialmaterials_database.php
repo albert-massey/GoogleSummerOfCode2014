@@ -48,34 +48,35 @@ class Specialmaterials_database extends SpecialPage {
 		$this->getOutput()->addHTML("
 		    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links'>
 			<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/moderator1.svg' title='I am ADMIN' alt='Smiley' width='43' height='43'>
-				</a>");
-		}   
-		$this->getOutput()->addHTML("</nav><br> ");	    
-		/** This code used for create  data entering form */
-		$this->getOutput()->setPageTitle( 'Add New Material' );
-		$this->getOutput()->addHTML("
-			<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database' method='post'>
-				<table>
-				<tr>
-					<td>Material Name</td><td><input required type='text' title='Example: Carbon' name='t1'></td>
-				</tr>
-				<tr>
-					<td>Material Privacy</td><td><input required type='radio' name='t3' value='1' checked>Public &nbsp;<input required type='radio' name='t3' value='0'>Private</td>
-				</tr>
-				<tr>
-					<td>Material Description</td><td><textarea required rows='6' cols='30' name='t4'></textarea></td>
-				</tr>
-				<tr><td>Material Type</td>
-				<td>
-				<select name='t5'>
-					<option value='1'>Metal</option>
-					<option value='2'>Non-metal</option>
-					<option value='3'>Fluid</option>
-					<option value='4'>Plastic</option>
-				</select>
-				</td>
-				</tr>
-				</table>");
+		    </a>");
+	    }   
+	    $this->getOutput()->addHTML("</nav><br> ");	    
+	    /** This code used for create  data entering form */
+	    $this->getOutput()->setPageTitle( 'Add New Material' );
+	    $this->getOutput()->addHTML("
+		<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database' method='post'>
+		    <table>
+			<tr>
+			    <td>Material Name</td><td><input required type='text' title='Example: Carbon' name='t1'></td>
+			</tr>
+			<tr>
+			    <td>Material Privacy</td><td><input required type='radio' name='t3' value='1' checked>Public &nbsp;<input required type='radio' name='t3' value='0'>Private</td>
+			</tr>
+			<tr>
+			    <td>Material Description</td><td><textarea required rows='6' cols='30' name='t4'></textarea></td>
+			</tr>
+			<tr>
+			    <td>Material Type</td>
+			    <td>
+			    <select name='t5'>
+				<option value='1'>Metal</option>
+				<option value='2'>Non-metal</option>
+				<option value='3'>Fluid</option>
+				<option value='4'>Plastic</option>
+			    </select>
+			    </td>
+			    </tr>
+		    </table>");
 		$this->getOutput()->addHTML("<h4>Enter the values in <i>SI</i> units</h4>");
 
 		/** This code is used for inserting the data in database */
