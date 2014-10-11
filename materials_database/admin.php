@@ -1,32 +1,32 @@
 <?php      
-class Specialmaterials_database_admin extends SpecialPage{                      
-public function __construct(){                                        
-parent::__construct('materials_database_admin');                                
-}                                                                    
-public function execute($sub){                                        
-global $array;                                                        
-global $wgUser;                                                       
-global $count;                                                        
-global $wgDBprefix;
-$name=$wgUser->getId();                                               
-$dbr=wfGetDB(DB_SLAVE);                                               
-$dbw = wfGetDB( DB_MASTER );
-$this->getOutput()->setPageTitle( 'Materials Database Extension' );   
-if($wgUser->isLoggedIn()){                                            
-/**This code makes the menu bar at the top of each page */
-
-        $this->getOutput()->addHTML("<style>                          
-        #menu ul{
-        list-style: none;
-        }
-
-  #menu li{                                                           
-  display: inline;
-  }
-  </style>
-  <div id='menu'>
-  <body>
-  <ul>
+class Specialmaterials_database_admin extends SpecialPage {
+    public function __construct()
+    {                                        
+	parent::__construct('materials_database_admin');                                
+    }                                                                    
+    public function execute($sub)
+    {
+	global $array;                                                        
+	global $wgUser;                                                       
+	global $count;                                                        
+	global $wgDBprefix;
+	$name = $wgUser->getId();                                               
+	$dbr = wfGetDB(DB_SLAVE);                                               
+	$dbw = wfGetDB( DB_MASTER );
+	$this->getOutput()->setPageTitle( 'Materials Database Extension' );   
+	if ($wgUser->isLoggedIn()) {                                            
+	    /**This code makes the menu bar at the top of each page */
+	    $this->getOutput()->addHTML("<style>                          
+	    #menu ul{
+	    list-style: none;
+	    }
+	    #menu li{                                                           
+	    display: inline;
+	    }
+	    </style>
+	    <div id='menu'>
+	    <body>
+	    <ul>
   <li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database'><img style='border:0;' src='smiley.gif' alt='Add new material' width='42' height='42' title='add new material'></a></li>
   &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_one'><img style='border:0;' src='smiley.gif' alt='Add new trait' width='42' height='42' title='add new trait'></a></li>
   &nbsp;<li><a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_delm'><img style='border:0;' src='smiley.gif' alt='Delete material' width='42' height='42' title='delete material'></a></li>
