@@ -1,4 +1,26 @@
 <?php
+/*                  E X P O R T _ J S O N . P H P
+ * BRL-CAD
+ *
+ * Copyright (c) 1995-2013 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file materials_database/export_json.php
+ *
+ */
 class Specialmaterials_database_export_json extends SpecialPage {
     public function __construct()
     {
@@ -6,39 +28,15 @@ class Specialmaterials_database_export_json extends SpecialPage {
     }
     public function execute($sub)
     {
+	global $wgStylePath;    
 	$name = $this->getUser()->getId();
 	$dbr = wfGetDB(DB_SLAVE);
 	$dbw = wfGetDB(DB_MASTER);
 	if ($this->getUser()->isLoggedIn()) {
-	/**This code makes the menu bar at the top of each page */
-	$this->getOutput()->addHTML("<nav>
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/add158.svg' title='Add Material' alt='Smiley' width='40' height='40'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_one'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bookmark19.svg' title='Add Trait' alt='Smiley' width='29' height='29'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_delm'><img onmouseover=onmouseover='style.color='red''onmouseout='style.color='black'' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/delete48.svg' title='Delete Material' alt='Smiley' width='32' height='32'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_del'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bin2.svg' title='Delete Trait' alt='Smiley' width='33' height='33'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searcht'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searchm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_viewall'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/male226.svg' title='View all Materials' alt='Smiley' width='32' height='32'>
-	    </a> |
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export_json'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'>
-	    </a> | ");
-	    $admins = array('bureaucrat','sysop');
-	    $user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
-	    $i = 0;
-	    foreach ($user_group as $ug_group) {
-		$array_ug[$i] = $ug_group->ug_group;
-		$i++;
-	    }
-	    if ($user_group->numRows() ==! 0) {
-		$this->getOutput()->addHTML("<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/moderator1.svg' title='I am ADMIN' alt='Smiley' width='43' height='43'></a>");
-	    }
-	    $this->getOutput()->addHTML("</nav><br> ");	         
+    
+	    /** This code makes the navigation bar at the top */
+	    include("navigation.php");
+
 	    /** This code used for create  data entering form */
 	    $this->getOutput()->setPageTitle('Export');
 	    $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export_json' method='post'><table><tr><td>Select the trait to be exported</td><td><select required name='exportselect'>");
@@ -54,14 +52,14 @@ class Specialmaterials_database_export_json extends SpecialPage {
 		foreach ($matdel as $samedata) {
 		    $arraymaterial[$f] = $samedata->material_name;
 		    $f++;
-		}	
+		}
 		$valuebp = $dbr->select($_POST['exportselect'],array('value'),"",__METHOD__);
 		$h = 0;
 		foreach ($valuebp as $samedata) {
 		    $arrayexport[$h] = $samedata->value;
 		    $h++;
 		}
-		$combine = array_combine($arraymaterial,$arrayexport);
+		$combine = array_combine($arraymaterial, $arrayexport);
 		$export = array();
 		for ($i = 0; $i < 5; $i++) {
 		    $export[] = array('Material' => $arraymaterial[$i],
@@ -74,8 +72,8 @@ class Specialmaterials_database_export_json extends SpecialPage {
 		fwrite($fh, $json_material);
 		fclose($fh);
 		$filename = $_POST['exportselect'].".json";
-		$file = "/var/www/mediawiki-1.22.7/$myFile";
-		$len = filesize($file); // Calculate File Size
+		$file = $wgServer.$wgScriptPath."/".$myFile;
+		$len = filesize($file); /** Calculate File Size */
 		ob_clean();
 		header("Pragma: public");
 		header("Expires: 0");
@@ -97,3 +95,11 @@ class Specialmaterials_database_export_json extends SpecialPage {
 	}
     }
 }
+
+/*
+ * Local Variables:
+ * mode: PHP
+ * tab-width: 8
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

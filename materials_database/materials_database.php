@@ -1,21 +1,26 @@
 <?php
-/**
- * MediaWiki materials_database extension
- * http://www.mediawiki.org/wiki/Extension:MaterialsDatabase
+/*         M A T E R I A L S _ D A T A B A S E . P H P
+ * BRL-CAD
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Copyright (c) 1995-2013 United States Government as represented by
+ * the U.S. Army Research Laboratory.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
  *
- * This program is distributed WITHOUT ANY WARRANTY.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
  */
-
+/** @file materials_database/materials_database.php
+ *
+ */
 /**
  * This file loads everything needed for the materials_database extension to function.
  * 
@@ -35,7 +40,7 @@ $wgExtensionCredits['specialpage'][] = array(
     'author'=>'Albert Coder',
     'version'=>'1.0',
     'url'=>'Coderalbert\'s',
-    'descriptionmsg'=>'This project is all about making a web application where users can easily store/retrieve the properties or traits of materials in a methodical manner such that those can be retrieved effortlessly.',
+    'descriptionmsg'=>'This extension is all about making a web application where users can easily store / retrieve the properties or traits of materials in a methodical manner such that those can be retrieved / reused  effortlessly.',
 );
 $dir = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $wgAutoloadClasses['Specialmaterials_database'] = $dir.'Specialmaterials_database.php';
@@ -71,5 +76,11 @@ $wgSpecialPages['materials_database_admin'] = 'Specialmaterials_database_admin';
 $wgSpecialPages['materials_database_import'] = 'Specialmaterials_database_import';
 $wgSpecialPages['materials_database_upload'] = 'Specialmaterials_database_upload';
 $wgSpecialPageGroups['materials_database'] = 'other';
-?>
 
+/*
+ * Local Variables:
+ * mode: PHP
+ * tab-width: 8
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

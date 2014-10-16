@@ -1,4 +1,26 @@
 <?php
+/*                     U P D A T E  . P H P
+ * BRL-CAD
+ *
+ * Copyright (c) 1995-2013 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file materials_database/update.php
+ *
+ */
 class Specialmaterials_database_update extends SpecialPage {
     public function __construct()
     {
@@ -7,60 +29,31 @@ class Specialmaterials_database_update extends SpecialPage {
     public function execute($sub)
     {
 	global $wgDBprefix;
+	global $wgStylePath;
 	$name = $this->getUser()->getId();
 	$dbr = wfGetDB(DB_SLAVE);
 	$dbw = wfGetDB(DB_MASTER);
 	$this->getOutput()->setPageTitle('Materials Database Extension');
 	if ($this->getUser()->isLoggedIn()) {
-	    /** This code makes the menu bar at the top of each page */
-	    $this->getOutput()->addHTML("<nav>
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/add158.svg' title='Add Material' alt='Smiley' width='40' height='40'>
-		</a>|
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_one'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bookmark19.svg' title='Add Trait' alt='Smiley' width='29' height='29'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_delm'><img onmouseover=onmouseover='style.color='red''onmouseout='style.color='black'' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/delete48.svg' title='Delete Material' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_del'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bin2.svg' title='Delete Trait' alt='Smiley' width='33' height='33'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searcht'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searchm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_viewall'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/male226.svg' title='View all Materials' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export_json'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'>
-		</a> | ");
-	    $admins=array('bureaucrat','sysop');
-	    $user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
-	    $i = 0;
-	    foreach ($user_group as $ug_group) {
-		$array_ug[$i] = $ug_group->ug_group;
-		$i++;
-	    }
-	    if ($user_group->numRows() ==! 0) {
-		$this->getOutput()->addHTML("
-		    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/moderator1.svg' title='I am ADMIN' alt='Smiley' width='43' height='43'>
-		    </a>");
-	    }
-	    $this->getOutput()->addHTML("</nav><br> ");	 
 
-	    /** This code used for create  data entering form */
+	    /** This code makes the navigation bar at the top */
+	    include("navigation.php");
+
 	    $this->getOutput()->setPageTitle('Update Material');
-	    /** This code is useat that time when any user have insert these values means to which user have userID in material table */
 
 	    /** This code is for all users. Any user can edit. */
 	    $mat_update = $dbr->select('material',array('material_name','id'),"",__METHOD__);
+
+	    /** This code used for create  data entering form */
 	    $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_update' method='post'><table><tr><td>Material Name</td><td><select required title='Example: Carbon' name='mat_id'><option selected value=''></option>");
 	    foreach ($mat_update as $mat_name) {
 		$this->getOutput()->addHTML("<option value='".$mat_name->id."'>".$mat_name->material_name."</option>");
 	    }
-	    $this->getOutput()->addHTML("</select></td></tr><!--<tr><td>Trait Name</td><td><input required type='text' name='t2'></td></tr><tr><td>Value</td><td><input required type='text' name='t3'></td></tr>--><tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form><br/>");
+	    $this->getOutput()->addHTML("</select></td></tr><tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form><br/>");
 	    if (isset($_POST['mat_update'])) {
-		echo $wgDBprefix.'material';
-		$dbw->query("UPDATE ".$wgDBprefix.'material'." SET material_name='".$_POST['up_material']."',mat_private='".$_POST['t3']."',description='".$_POST['t4']."',mat_type='".$_POST['t5']."' WHERE id='".$_POST['mat_id']."'  ");
-		for ($v = 0 ; $v <= $_POST['up_counter'] ; $v++) {
+		$dbw->query("UPDATE ".$wgDBprefix.'material'." SET material_name='".$_POST['up_material']."',mat_private='".$_POST['t3']."',description=\"".$_POST['t4']."\",mat_type='".$_POST['t5']."' WHERE id='".$_POST['mat_id']."'  ");
+		for ($v = 0; $v <= $_POST['up_counter']; $v++) {
 		    $dbw->query("UPDATE ".$wgDBprefix.$_POST['trait'.$v]." SET value='".$_POST['values'.$v]."' WHERE mat_id='".$_POST['mat_id']."'  ");
-		    $this->getOutput()->addHTML("UPDATED");
 		}
 	    }
 	    else {
@@ -70,8 +63,8 @@ class Specialmaterials_database_update extends SpecialPage {
 		    $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_update' method='post'>");
 		    $this->getOutput()->addHTML("<input type='hidden' name='mat_id' value='".$_POST['mat_id']."' >");
 		    foreach ($up_mat as $material) {
-			$this->getOutput()->addHTML("<table><tr><td>Material Name</td><td><input required type='text' title='Example: Carbon' name='up_material' value='".$material>material_name."' /></tr><tr><td>Material Privacy</td><td>");
-			if($material->mat_private == 1) {
+			$this->getOutput()->addHTML("<table><tr><td>Material Name</td><td><input required type='text' title='Example: Carbon' name='up_material' value='".$material->material_name."' /></tr><tr><td>Material Privacy</td><td>");
+			if ($material->mat_private == 1) {
 			    $this->getOutput()->addHTML("<input checked required type='radio' name='t3' value='1' checked>Public &nbsp;&nbsp;&nbsp;<input required type='radio' name='t3' value='0'>Private");
 			}
 			else {
@@ -92,14 +85,13 @@ class Specialmaterials_database_update extends SpecialPage {
 			$this->getOutput()->addHTML("</select></td></tr></table>");
 			$this->getOutput()->addHTML("<h4>Enter the values in <i>SI units</i></h4>");
 
-
 			/** This code is for update trait tables */
 			$trait_table = $dbr->select('trait_table',array('id','trait_name'),"","__METHOD__",array('ORDER BY' => 'trait_name'));
 			$this->getOutput()->addHTML("<table>");
 			$v = 0;
 		    	foreach ($trait_table as $traits) {
 			    echo $trait = $traits->trait_name;
-			    $this->getOutput()->addHTML("<input type='hidden' name='trait".$v."' value='".$trait."'  >");
+			    $this->getOutput()->addHTML("<input type='hidden' name='trait".$v."' value='".$trait."'>");
 			    $trait_count = $dbr->select($trait,array('count(id)'),"mat_id='".$_POST['mat_id']."'",__METHOD__ );
 			    $trait_value = $dbr->select($trait,array('value'),"mat_id='".$_POST['mat_id']."'",__METHOD__ );
 			    foreach ($trait_count as $count) {
@@ -108,7 +100,7 @@ class Specialmaterials_database_update extends SpecialPage {
 				}	
 			    }
 			    foreach ($trait_value as $g) {
-				foreach($g as $t_value) {
+				foreach ($g as $t_value) {
 				    $t_value."<br>";
 				}
 			    }
@@ -130,3 +122,10 @@ class Specialmaterials_database_update extends SpecialPage {
     }
 }
 
+/*
+ * Local Variables:
+ * mode: PHP
+ * tab-width: 8
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

@@ -1,5 +1,27 @@
 <?php
-    class Specialmaterials_database_exportcsv extends SpecialPage {
+/*                   E X P O R T C S V . P H P
+ * BRL-CAD
+ *
+ * Copyright (c) 1995-2013 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file materials_database/exportcsv.php
+ *
+ */
+class Specialmaterials_database_exportcsv extends SpecialPage {
     public function __construct()
     {
 	parent::__construct('materials_database_exportcsv');
@@ -10,7 +32,7 @@
 	$name = $this->getUser()->getId();
 	if ($this->getUser()->isLoggedIn()) {
 	    $dbr = wfGetDB(DB_SLAVE);
-	    $this->getOutput()->setPageTitle( 'Export in CSV' );
+	    $this->getOutput()->setPageTitle('Export in CSV');
 	    $dbw = wfGetDB(DB_MASTER);
 
 	    /** Database Connection */
@@ -18,7 +40,7 @@
 	    $uname = "root";
 	    $pass = "batman";
 	    $database = "mikiwikidb";
-	    $connection = mysqli_connect($host,$uname,$pass,$database); 
+	    $connection = mysqli_connect($host, $uname, $pass, $database); 
 	    echo mysql_error();
 
 	    /** Fetch Record from Database */
@@ -48,23 +70,9 @@
 	    header('Content-Disposition: attachment; filename='.$filename);
 	    echo $output;
 	    exit;
-	    $this->getOutput()->addHTML("<nav>
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/add158.svg' title='Add Material' alt='Smiley' width='32' height='32'>
-		</a>|
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_one'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bookmark19.svg' title='Add Trait' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_delm'><img onmouseover=onmouseover='style.color='red'' onmouseout='style.color='black'' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/delete48.svg' title='Delete Material' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_del'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bin2.svg' title='Delete Trait' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_viewall'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/male226.svg' title='View all Materials' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searcht'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searchm'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'>
-		</a> |
-		<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'>
-		</a> |</nav><br> ");
+
+	    /** This code makes the navigation bar at the top */
+	    include("navigation.php");
 	    $res2 = $dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 	    $g = 0;
 	    foreach ($res2 as $samedata) {
@@ -77,9 +85,8 @@
 		array('material',$array[$i]),
 		array('material_name','value',"{$dbr->tableName( $array[$i] )}.mat_id","{$dbr->tableName( $array[$i] )}.timestamp","{$dbr->tableName($array[$i])}.status" ),
 		array('mat_id>0'),__METHOD__,array(),
-		array($array[$i] => array( 'INNER JOIN', array("{$dbr->tableName( 'material' )}.id=mat_id" ) ) ));
-		$this->getOutput()->addHTML("<form action=http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links method='post'>
-                <table border='1' width='600' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th><th>Check to Approve</th></tr><br>");
+		array($array[$i] => array('INNER JOIN', array("{$dbr->tableName( 'material' )}.id=mat_id"))));
+		$this->getOutput()->addHTML("<form action=http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links method='post'><table border='1' width='600' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th><th>Check to Approve</th></tr><br>");
                 foreach ($res as $row) {
 		    $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."<td><input type='checkbox' name='" .$array[$i].$row->mat_id."' value='".$row->mat_id."'></td></tr>");
 		    $dbr->tableName( $array[$i] ).$row->mat_id;
@@ -103,9 +110,15 @@
 	    $this->getOutput()->addHTML("<head>");
 	}
 	else {
-	    $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
+	    $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMaterials+database'>Login</a> to add new Data</h3>");
 	}
     }    
 }
 
-
+/*
+ * Local Variables:
+ * mode: PHP
+ * tab-width: 8
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

@@ -1,4 +1,27 @@
 <?php
+/*    S P E C I A L M A T E R I A L S _ D A T A B A S E . P H P
+ * BRL-CAD
+ *
+ * Copyright (c) 1995-2013 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file materials_database/Specialmaterials_database.php
+ *
+ */
+
 class Specialmaterials_database extends SpecialPage {
     public function __construct()
     {
@@ -8,51 +31,15 @@ class Specialmaterials_database extends SpecialPage {
     {
 	global $array;
 	global $count;
+	global $wgStylePath;
 	$name = $this->getUser()->getId();
 	$dbr = wfGetDB(DB_SLAVE);
 	$dbw = wfGetDB(DB_MASTER);
 	$this->getOutput()->setPageTitle('Materials Database Extension');
 	if ($this->getUser()->isLoggedIn()) {
+    
 	    /** This code makes the navigation bar at the top */
-	    $this->getOutput()->addHTML("<nav>
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/add158.svg' title='Add Material' alt='Smiley' width='40' height='40'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_one'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bookmark19.svg' title='Add Trait' alt='Smiley' width='29' height='29'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_delm'>
-		<img onmouseover=onmouseover='style.color='red''onmouseout='style.color='black'' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/delete48.svg' title='Delete Material' alt='Smiley' width='32' height='32'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_del'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/bin2.svg' title='Delete Trait' alt='Smiley' width='33' height='33'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searcht'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/browser8.svg' title='Search by Trait' alt='Smiley' width='32' height='32'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_searchm'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/search28.svg' title='Search Material' alt='Smiley' width='32' height='32'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_viewall'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/male226.svg' title='View all Materials' alt='Smiley' width='32' height='32'>
-	    </a>|
-	    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export_json'>
-		<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'>
-	    </a>|");
-	    $admins = array('bureaucrat','sysop');
-	    $user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
-	    $i = 0;
-	    foreach ($user_group as $ug_group) {
-		$array_ug[$i] = $ug_group->ug_group;
-		$i++;
-	    }
-	    if ($user_group->numRows() ==! 0) {
-		$this->getOutput()->addHTML("
-		    <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links'>
-			<img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='http://localhost/mediawiki-1.22.7/extensions/materials_database/images/moderator1.svg' title='I am ADMIN' alt='Smiley' width='43' height='43'>
-		    </a>");
-	    }
-	    $this->getOutput()->addHTML("</nav><br> ");	    
+	    include("navigation.php");
 	    /** This code used for create  data entering form */
 	    $this->getOutput()->setPageTitle('Add New Material');
 	    $this->getOutput()->addHTML("
@@ -77,7 +64,7 @@ class Specialmaterials_database extends SpecialPage {
 				<option value='4'>Plastic</option>
 			    </select>
 			    </td>
-			    </tr>
+			</tr>
 		    </table>");
 	    $this->getOutput()->addHTML("<h4>Enter the values in <i>SI</i> units</h4>");
 
@@ -128,12 +115,13 @@ class Specialmaterials_database extends SpecialPage {
 		    /** 
 		     * Iterating for loop for all traits which
 		     * have corresponding values in their text-
-		     * fields. */  
+		     * fields.
+		     */  
 		    for ($i = 0; $i <= $limit; $i++) {
 			if ($_POST['d'.$i] != NULL) {
 			    $data = array('value'=>$_POST['d'.$i],'mat_id'=>$id,);
 			    $res3 = $dbr->insert($_POST[$i],$data,__METHOD__);
-			}	
+			}
 		    }
 		}
 	    }
@@ -141,7 +129,8 @@ class Specialmaterials_database extends SpecialPage {
 	    /** 
 	     * The following code fetches traits from database
 	     * and displays them for adding values for a new
-	     * material */
+	     * material. 
+	     */
 	    $res = $dbr->select('trait_table',array('trait_name','id'),"",__METHOD__);
 	    $v = 0;
 	    $this->getOutput()->addHTML("<table>");
@@ -150,7 +139,7 @@ class Specialmaterials_database extends SpecialPage {
 		    <tr><input type='hidden' value='".$data->trait_name."' name='".$v."'><td>".ucwords(str_ireplace("_", " ", $data->trait_name))."</td><td><input type='text' name='d".$v."' pattern='^[0-9]*\.?[0-9]*?$' title='Example: Density of water=1.0887'  placeholder='Enter the value of ".$data->trait_name."'></td>
 		    </tr>");
 		$v++;
-	    }	
+	    }
 	    /** Submit the values to insert into database. */
 	    $this->getOutput()->addHTML("<tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form>");
 	}
@@ -168,20 +157,20 @@ class Specialmaterials_database extends SpecialPage {
 		    $g++;
 		}
 
-		for ($i = 0; $i < sizeof($array); $i++ ) {
+		for ($i = 0; $i < sizeof($array); $i++) {
 		    $res = $dbr->select(
 		    array('material',$array[$i]),
-		    array('material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp"),
-		    array("mat_id='".$r[1]."'"),__METHOD__,array(),array($array[$i] => array('INNER JOIN', array("{$dbr->tableName('material')}.id='".$r[1]."'" ) ) ));
-		$this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
-		foreach ( $res as $row ) {
-		    $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+		    array('material_name','value',"{$dbr->tableName($array[$i])}.timestamp"),
+		    array("mat_id='".$r[1]."'"),__METHOD__,array(),array($array[$i] => array('INNER JOIN', array("{$dbr->tableName('material')}.id='".$r[1]."'"))));
+		    $this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
+		    foreach ($res as $row) {
+			$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
+		    }
+		    $this->getOutput()->addHTML("</table><br>");
 		}
-		$this->getOutput()->addHTML("</table><br>");}
 	    }
 	    else {
-		$this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMat+ext'>Login</a> to add new Data</h3>");
-		//$this->getOutput()->addHTML("<h3 style='color:black'>Please ENTER Material Name</h3>");
+		$this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMaterials+database'>Login</a> to add new Data</h3>");
 		$res2 = $dbr->select('trait_table',array('trait_name'),"",__METHOD__);
 		$g = 0;
 		foreach ($res2 as $samedata) {
@@ -189,12 +178,12 @@ class Specialmaterials_database extends SpecialPage {
 		    $count = $g + 1;
 		    $g++;
 		}
-		for ($i = 0; $i < $count; $i++ ) {
+		for ($i = 0; $i < $count; $i++) {
 		    $res = $dbr->select(
-		    array( 'material',$array[$i]),
-		    array( 'material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
+		    array('material',$array[$i]),
+		    array('material_name','value',"{$dbr->tableName( $array[$i] )}.timestamp" ),
 		    array('mat_id>0'),__METHOD__,array(),
-		    array( $array[$i] => array( 'INNER JOIN', array("{$dbr->tableName( 'material' )}.id=mat_id" ) ) ));
+		    array($array[$i] => array('INNER JOIN', array("{$dbr->tableName( 'material' )}.id=mat_id"))));
 		    $this->getOutput()->addHTML("<table border='1' width='550' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th></tr>");
 		    foreach ($res as $row) {
 			$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td></tr>");
