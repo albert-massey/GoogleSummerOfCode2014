@@ -7,5 +7,7 @@ This repository has all the files which facilitate to make a web interface for s
 2. Clone this repository into the path: mediawiki/extensions.
 3. Edit the mediawiki/LocalSettings.php file and append this line at the end: require_once "$IP/extensions/materials_database/materials_database.php";
 4. Now you are all set to use this extension. Go to the URl http://localhost/$MW/index.php/Special:materials_database .Here $MW stands for the version of MediaWiki you have installed. For example http://localhost/mediawiki-1.22.7/index.php/Special:materials_database .
-5. Now you can sign up and login to use the extension(which is quite easy).
+5. Now run this command in your terminal from your MW base directory to copy the images in the skins directory: 
+   cp extensions/materials_database/images/* skins/common/images/
+6. Now you can sign up and login to use the extension(which is quite easy).
 
