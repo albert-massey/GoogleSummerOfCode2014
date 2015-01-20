@@ -35,7 +35,7 @@ class Specialmaterials_database_one extends SpecialPage {
 	    global $wgDBprefix;
 	    global $wgStylePath;
 	    $dbr = wfGetDB(DB_SLAVE);
-	    $wiki_message = 'J3';
+	    $message = 'J3';
 	    $this->getOutput()->setPageTitle('Materials Database Extension');
 	    $this->getOutput()->setPageTitle('Add New Trait');
 	    $dbw = wfGetDB(DB_MASTER);
@@ -70,7 +70,7 @@ class Specialmaterials_database_one extends SpecialPage {
 		    ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 		    ");
 		    $dbw->query("ALTER TABLE `".$wgDBprefix.$strtolower."`
-		    ADD CONSTRAINT `FK".$wgDBprefix.$strtolower."` FOREIGN KEY (`mat_id`) REFERENCES `wiki_material` (`id`) ON DELETE CASCADE;
+		    ADD CONSTRAINT `FK".$wgDBprefix.$strtolower."` FOREIGN KEY (`mat_id`) REFERENCES `material` (`id`) ON DELETE CASCADE;
 		    ");
 		    $res = $dbr->insert('trait_table',$r,__METHOD__);
 		    $this->getOutput()->addHTML("<h4 style='color:#00FF00'>Data is inserted</h4>");

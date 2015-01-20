@@ -67,7 +67,7 @@ class Specialmaterials_database_export_json extends SpecialPage {
 		}
 		$json_material = json_encode($export);
 		$myFile = "bp.json";
-		$fh = fopen($myFile, 'w') or die("can't open file");
+		$fh = fopen($myFile, 'w') or die("Version issues");
 		$stringData = str_ireplace("Carbon","Peter",$json_material);
 		fwrite($fh, $json_material);
 		fclose($fh);

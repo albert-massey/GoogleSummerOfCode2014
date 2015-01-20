@@ -46,13 +46,13 @@ class Specialmaterials_database_exportxml extends SpecialPage {
 	    echo mysqli_error($connection);
 
 	    /** return all available tables */
-	    $result_tbl = mysqli_query($connection, "SHOW TABLES FROM ".$database." WHERE Tables_in_mikiwikidb = 'wiki_density'");
+	    $result_tbl = mysqli_query($connection, "SHOW TABLES FROM ".$database." WHERE Tables_in_mikiwikidb = 'density'");
 	    $tables = array();
 	    while ($row = mysqli_fetch_row($result_tbl)) {
 		$tables[] = $row[0];
 	    }
 	    $sql1 = mysqli_query($connection,"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'mikiwikidb'
-	    AND TABLE_NAME = 'wiki_density'");
+	    AND TABLE_NAME = 'density'");
 	    $columns = array();
 	    while ($row1 = mysqli_fetch_row($sql1)) {
 		$columns[] = $row1[0];

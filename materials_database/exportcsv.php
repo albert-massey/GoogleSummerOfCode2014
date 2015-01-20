@@ -45,7 +45,7 @@ class Specialmaterials_database_exportcsv extends SpecialPage {
 
 	    /** Fetch Record from Database */
 	    $output = "";
-	    $table = "wiki_density"; // Enter Your Table Name
+	    $table = "density"; // Enter Your Table Name
 	    $sql = mysqli_query($connection,"select * from $table");
 	    $columns_total = mysqli_num_fields($sql);
 

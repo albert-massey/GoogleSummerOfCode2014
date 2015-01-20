@@ -39,7 +39,7 @@ class Specialmaterials_database_delm extends SpecialPage {
 	    /** This code makes the navigation bar at the top */
 	    include("navigation.php");
 	    $admins = array('bureaucrat','sysop');
-	    $user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
+	    $user_group = $dbw->query("SELECT ug_group FROM `user_groups` WHERE ug_user=".$this->getUser()->getId()."");
 	    $i = 0;
 	    foreach ($user_group as $ug_group) {
 		$array_ug[$i] = $ug_group->ug_group;
@@ -58,7 +58,7 @@ class Specialmaterials_database_delm extends SpecialPage {
 		$this->getOutput()->addHTML("</select></td></tr><tr><td><input type='submit' value='Delete' name='del' ></td></tr></table></form>");
 		if ($matdel->numRows() != 0) {
 		    if (isset($_POST['del'])) {
-			$dbw->query("DELETE FROM `wiki_material` WHERE `material_name` ='".$_POST['materialdel']."'");
+			$dbw->query("DELETE FROM `material` WHERE `material_name` ='".$_POST['materialdel']."'");
 			$page = $_SERVER['PHP_SELF'];
 			header("refresh: 0; url=$page");
 		    }

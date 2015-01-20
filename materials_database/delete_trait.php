@@ -52,7 +52,7 @@ class Specialmaterials_database_del extends SpecialPage {
 		if ($resdel->numRows() != 0) {
 		    if (isset($_POST['del'])) {
 			$dbw->query("DROP TABLE $wgDBprefix".$_POST['traitsdel']."");
-			$dbw->query("DELETE FROM `wiki_trait_table` WHERE `trait_name` ='".$_POST['traitsdel']."'");
+			$dbw->query("DELETE FROM `trait_table` WHERE `trait_name` ='".$_POST['traitsdel']."'");
 			$page = $_SERVER['PHP_SELF'];
 			header("refresh: 0; url=$page");
 		    }
