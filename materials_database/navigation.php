@@ -17,7 +17,7 @@
 	<a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_export_json'><img onmouseover='bigImg(this)' onmouseout='normalImg(this)' border='0' src='$wgStylePath/common/images/export(1).png' title='Export by Trait' alt='Smiley' width='32' height='32'>
 	</a> | ");
     $admins=array('bureaucrat','sysop');
-    $user_group = $dbw->query("SELECT ug_group FROM `wiki_user_groups` WHERE ug_user=".$this->getUser()->getId()."");
+    $user_group = $dbw->query("SELECT ug_group FROM `user_groups` WHERE ug_user=".$this->getUser()->getId()."");
     $i = 0;
     foreach ($user_group as $ug_group) {
 	$array_ug[$i] = $ug_group->ug_group;
