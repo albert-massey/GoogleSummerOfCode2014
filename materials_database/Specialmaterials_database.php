@@ -37,9 +37,11 @@ class Specialmaterials_database extends SpecialPage {
 	$dbw = wfGetDB(DB_MASTER);
 	$this->getOutput()->setPageTitle('Materials Database Extension');
 	if ($this->getUser()->isLoggedIn()) {
-    
+
+
 	    /** This code makes the navigation bar at the top */
 	    include("navigation.php");
+	  
 	    /** This code used for create  data entering form */
 	    $this->getOutput()->setPageTitle('Add New Material');
 	    $this->getOutput()->addHTML("
