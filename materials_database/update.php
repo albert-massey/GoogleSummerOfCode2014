@@ -49,7 +49,7 @@ class Specialmaterials_database_update extends SpecialPage {
 	    foreach ($mat_update as $mat_name) {
 		$this->getOutput()->addHTML("<option value='".$mat_name->id."'>".$mat_name->material_name."</option>");
 	    }
-	    $this->getOutput()->addHTML("</select></td></tr><tr><td><input type='submit' value='Add' name='add' ></td></tr></table></form><br/>");
+	    $this->getOutput()->addHTML("</select></td></tr><tr><td><input type='submit' value='Edit' name='add' ></td></tr></table></form><br/>");
 	    if (isset($_POST['mat_update'])) {
 		$dbw->query("UPDATE ".$wgDBprefix.'material'." SET material_name='".$_POST['up_material']."',mat_private='".$_POST['t3']."',description=\"".$_POST['t4']."\",mat_type='".$_POST['t5']."' WHERE id='".$_POST['mat_id']."'  ");
 		for ($v = 0; $v <= $_POST['up_counter']; $v++) {
@@ -58,6 +58,7 @@ class Specialmaterials_database_update extends SpecialPage {
 	    }
 	    else {
 		if (isset($_POST['add'])) {
+		    $this->getOutput()->addHTML("<h2>Edit Material</h2>");
 		    $mat_update = $dbr->select('material',array('material_name','id'),"",__METHOD__);
 		    $up_mat = $dbr->select('material',array('id','material_name','mat_private','description','mat_type'),"id='".$_POST['mat_id']."'",__METHOD__);
 		    $this->getOutput()->addHTML("<form action='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_update' method='post'>");
@@ -90,18 +91,18 @@ class Specialmaterials_database_update extends SpecialPage {
 			$this->getOutput()->addHTML("<table>");
 			$v = 0;
 		    	foreach ($trait_table as $traits) {
-			    echo $trait = $traits->trait_name;
+			    $trait = $traits->trait_name;
 			    $this->getOutput()->addHTML("<input type='hidden' name='trait".$v."' value='".$trait."'>");
 			    $trait_count = $dbr->select($trait,array('count(id)'),"mat_id='".$_POST['mat_id']."'",__METHOD__ );
 			    $trait_value = $dbr->select($trait,array('value'),"mat_id='".$_POST['mat_id']."'",__METHOD__ );
 			    foreach ($trait_count as $count) {
 				foreach ($count as $counter) {
-				    echo $counter."<br />";
+				     $counter."<br />";
 				}	
 			    }
 			    foreach ($trait_value as $g) {
 				foreach ($g as $t_value) {
-				    $t_value."<br>";
+				    $t_value;
 				}
 			    }
 			    $trait_name = ucwords(str_ireplace("_", " ", $traits->trait_name));
@@ -112,7 +113,7 @@ class Specialmaterials_database_update extends SpecialPage {
 				echo $this->getOutput()->addHTML("<tr><td>".$trait_name."</td><td><input type='text' name='values".$v."' value='".$t_value."' pattern='^[0-9]*\.?[0-9]*?$' title='Example: Density of water=1.0887' placeholder='Enter the value of ".$trait_name."' ></td></tr>");
 			    }
 			    $this->getOutput()->addHTML("<input type='hidden' name='up_counter' value='".$v."'> ");
-			    echo $v++;
+			    $v++;
 			}
 			$this->getOutput()->addHTML("<tr><td><input type='submit' name='mat_update' value='UPDATE'></td></tr></table></form>");
 		    }
