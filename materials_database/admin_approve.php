@@ -54,7 +54,12 @@ class Specialmaterials_database_links extends SpecialPage {
 	        );
 		$this->getOutput()->addHTML("<form action=http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."/Special:materials_database_links method='post'><table border='1' width='600' height='30' cellspacing='1' cellpadding='3'><tr><th>Material Name</th><th>".ucwords(str_ireplace("_", " ", $array[$i]))."</th><th>Timestamp</th><th>Status</th><th>Check to Approve</th></tr><br>");
 		foreach ($res as $row) {
-		    $this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."<td><input type='checkbox' name='" .$array[$i].$row->mat_id."' value='".$row->mat_id."'></td></tr>");
+		    if($row->status == 1) {
+			$this->getOutput()->addHTML("<tr bgcolor='#B2FFFF'><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."<td><input checked type='checkbox' name='" .$array[$i].$row->mat_id."' value='".$row->mat_id."'></td></tr>");
+		    }
+		    else {
+			$this->getOutput()->addHTML("<tr><td>".$row->material_name."</td><td>".$row->value."</td><td>".$row->timestamp."</td><td>".$row->status."<td><input type='checkbox' name='" .$array[$i].$row->mat_id."' value='".$row->mat_id."'></td></tr>");
+		    }
 		    $dbr->tableName($array[$i]).$row->mat_id;
 		    if (isset($_POST[$array[$i].$row->mat_id])) {
 			$dbw->query(" UPDATE ".$wgDBprefix.$array[$i]." 
@@ -72,7 +77,7 @@ class Specialmaterials_database_links extends SpecialPage {
 		WHERE mat_id='".$_POST[$dbr->tableName($array[$i]).$row->mat_id]."'");
 	    }
 		$this->getOutput()->addHTML("</table><br>");
-		$this->getOutput()->addHTML("<input type=submit value=approve></form><br>");
+		$this->getOutput()->addHTML("<input type=submit value='Approve'></form><br>");
 	}
 	else {
 	    $this->getOutput()->addHTML("<h3 style='color:black'>Please <a href='http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?title=Special:UserLogin&returnto=Special%3AMaterials+database'>Login</a> to add new Data</h3>");
