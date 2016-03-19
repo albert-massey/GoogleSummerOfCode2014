@@ -55,8 +55,6 @@ sudo ln -s /var/lib/mediawiki-1.26.2 mediawiki
 
 Now, navigate your browser to http://localhost/mediawiki and set up the mediawiki by folowing the installation procedure. 
 
-Bug- Do not set Dbprefix for now. It will create problem. Leave it as it is.
-
 Once the installation will be finished, it will automatically generate LocalSettings.php file. Save that file and move to the /var/lib/mediawiki-\*
 
 <pre>cd Downloads
@@ -94,7 +92,7 @@ Here $MW stands for the version of MediaWiki you have installed. For example htt
 
 Now run this command in your terminal from your MW base directory to copy the images in the skins directory: 
 
-cp extensions/MaterialsDatabase/materials_database/images/* skins/Vector/images/
+cp extensions/MaterialsDatabase/materials_database/images/* skins/common/images/
 
 Now you can sign up and login to use the extension(which is quite easy).
 
